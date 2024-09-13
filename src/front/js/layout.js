@@ -1,18 +1,15 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import ScrollToTop from "./component/scrollToTop";
+import { BackendURL } from "./component/backendURL";
+
+import { Home } from "./pages/home";
+import { Demo } from "./pages/demo";
+import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
 
-import { Home } from "./pages/home.jsx";
-import { Login } from "./pages/login.jsx";
-import { AgeVerification } from "./pages/age_verification.jsx";
-import { Profile } from "./pages/profile.jsx";
-import { Search } from "./pages/search.jsx";
-import { SearchMatch } from "./pages/search_match.jsx";
-import { MatchResults } from "./pages/match_results.jsx";
-import { PlatformSelection } from "./pages/platform_selection.jsx";
-import { GameSelection } from "./pages/game_selection.jsx";
-import { RegistrationForm } from "./pages/registration_form.jsx";
-import { GenreSelection } from "./pages/genre_selection.jsx";
+import { Navbar } from "./component/navbar";
+import { Footer } from "./component/footer";
 
 //create your first component
 const Layout = () => {
@@ -24,21 +21,17 @@ const Layout = () => {
 
     return (
         <div>
-            <BrowserRouter basename={basename}>            
+            <BrowserRouter basename={basename}>
+                <ScrollToTop>
+                    <Navbar />
                     <Routes>
                         <Route element={<Home />} path="/" />
-                        <Route element={<Login />} path="/login" />
-                        <Route element={<AgeVerification />} path="/age-verification" />
-                        <Route element={<Profile />} path="/profile" />
-                        <Route element={<Search />} path="/search" />
-                        <Route element={<SearchMatch />} path="/search-match" />
-                        <Route element={<MatchResults />} path="/match-results" />
-                        <Route element={<PlatformSelection />} path="/platform-selection" />
-                        <Route element={<GameSelection />} path="/game-selection" />
-                        <Route element={<RegistrationForm />} path="/registration-form" />
-                        <Route element={<GenreSelection />} path="/genre-selection" />
-                        <Route element={<h1>Page Not Found</h1>} path="*"/>
+                        <Route element={<Demo />} path="/demo" />
+                        <Route element={<Single />} path="/single/:theid" />
+                        <Route element={<h1>Not found!</h1>} />
                     </Routes>
+                    <Footer />
+                </ScrollToTop>
             </BrowserRouter>
         </div>
     );

@@ -1,158 +1,95 @@
-import React from "react";
+import React, { useEffect, useContext, useState } from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { UserProfileCard } from "./profile_user.jsx";
 import { CardComponentUser } from "./cardMatchGamers.jsx";
-import { SessionCard } from "./profile_sessionsCard.jsx";
+import { SessionCard } from "./profile_sessionCard.jsx";
+import { Context } from "../store/appContext";
 import perfil from "../../img/perfil/perfil-1.png";
 import sessionImage1 from "../../img/match/imagen-match.jpg";
-import juego1 from "../../img/games/game_03.jpg";
 
-export const UserInformation = ({
-  profile_img_url,
-  username,
-  first_name,
-  last_name,
-  description,
-  steam_id,
-  discord_id,
-  platforms,
-  games,
-}) => {
+export const UserInformation = () => {
+  const { store, actions } = useContext(Context);
+  const userId = "5"; // Define el userId aquí
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        await actions.getUserProfile(userId);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserProfile();
+  }, [userId, actions]);
+
+  const userProfile = store.userProfile || {};
+  const platforms = userProfile.platform || [];
+
+  // Verifica si está cargando
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  // Verifica si hay un error
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  // Mapea las plataformas a un formato adecuado
+  const platformIcons = platforms.map((platform) => ({
+    name: platform.charAt(0).toUpperCase() + platform.slice(1),
+    icon:
+      platform === "steam"
+        ? "steam"
+        : platform === "play station"
+        ? "playstation"
+        : platform,
+  }));
+
   return (
     <>
-      <div className="user-information ">
+      <div className="user-information">
         <section id="profile_information">
-          <div className="row align-items-start">
-            <div className="col-12 col-md-2 text-center mb-3 mb-md-0">
-              <img
-                src={profile_img_url}
-                className="img-thumbnail circular-image"
-                alt=""
-              />
-            </div>
-            <div className="col-12 col-md-8 mb-4">
-              <h3>
-                <span className="ms-5">{username}</span>
-              </h3>
-              <div className="personal-data mt-2">
-                <p className="ms-5">
-                  <strong>
-                    {first_name} {last_name}
-                  </strong>
-                </p>
-              </div>
-              <div className="description mt-2 ms-5">
-                <span>{description}</span>
-              </div>
-              <div className="social-links mt-4 ms-5">
-                <p className="d-flex justify-content-start flex-wrap">
-                  <a
-                    href={steam_id}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="me-3"
-                  >
-                    <i className="fab fa-youtube fa-2x"></i>
-                  </a>
-                  <a
-                    href={discord_id}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="me-3"
-                  >
-                    <i className="fab fa-discord fa-2x"></i>
-                  </a>
-                  <a
-                    href={discord_id}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <i className="fab fa-twitch fa-2x"></i>
-                  </a>
-                </p>
-              </div>
-            </div>
-            <div className="col-12 col-md-2 d-flex justify-content-center align-items-start py-3">
-              <Link to="/">
-                <button type="button" className="btn custom-button me-5">
-                  Connect
-                </button>
-              </Link>
-            </div>
-          </div>
+          <UserProfileCard {...userProfile} />
         </section>
         <section
           id="profile_platforms"
-          className="background-user-platforms mt-5 custon-border"
+          className="background-user-platforms mt-5 custom-border"
         >
           <div className="row">
-            <div className="col-12 text-center mb-3">
+            <div className="col-12 text-center mb-3 g-4">
               <h3>Platforms</h3>
             </div>
             <div className="col-12 d-flex justify-content-center">
-              <div className="row justify-content-center ">
-                {platforms.map((platform, index) => (
-                  <div key={index} className="col-md-4 mb-3 mt-3">
-                    <div
-                      className="card text-center custom-card-platforms"
-                      style={{ minWidth: "12rem" }}
-                    >
-                      <div className="card-body">
-                        <i
-                          className={`${platform.prefix} fa-${platform.icon} fa-2x`}
-                        ></i>
-                        <h5 className="card-title">{platform.name}</h5>
+              <div className="row justify-content-center">
+                {platformIcons.length > 0 ? (
+                  platformIcons.map((platform, index) => (
+                    <div key={index} className="col-md-4 mb-3 mt-3">
+                      <div
+                        className="card text-center custom-card-platforms"
+                        style={{ minWidth: "12rem" }}
+                      >
+                        <div className="card-body">
+                          <i className={`fab fa-${platform.icon} fa-2x`}></i>
+                          <h5 className="card-title">{platform.name}</h5>
+                        </div>
                       </div>
                     </div>
+                  ))
+                ) : (
+                  <div className="col-12 text-center">
+                    No platforms available.
                   </div>
-                ))}
+                )}
               </div>
             </div>
           </div>
         </section>
-        <div>
-          <section
-            id="profile_games"
-            className="background-user-platforms mt-5 custon-border"
-          >
-            <div className="row ">
-              <div className="col-12 text-center mb-3">
-                <h3>Games</h3>
-              </div>
-              <div className="col-12 d-flex justify-content-center ">
-                <div className="row justify-content-center ">
-                  {games.map((game, index) => (
-                    <div key={index} className="col-md-6 mb-3 mt-3">
-                      <div
-                        className="card text-center custom-card-games"
-                        style={{ minWidth: "12rem" }}
-                      >
-                        <div className="card">
-                          <img
-                            src={game.image_url}
-                            alt=""
-                            className="img-fluid"
-                            style={{
-                              objectFit: "cover",
-                              height: "200px",
-                              width: "100%",
-                            }}
-                          />
-                          <div
-                            className="card-footer"
-                            style={{ backgroundColor: "#575757" }}
-                          >
-                            <h5>{game.title}</h5>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
         <div>
           <section id="profile_games">
             <div className="row">

@@ -1,54 +1,86 @@
 const getState = ({ getStore, getActions, setStore }) => {
-	return {
-		store: {
-			message: null,
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
-		},
-		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
+  return {
+    store: {
+      message: null,
+      demo: [
+        {
+          title: "FIRST",
+          background: "white",
+          initial: "white",
+        },
+        {
+          title: "SECOND",
+          background: "white",
+          initial: "white",
+        },
+      ],
+    },
+    actions: {
+      // Use getActions to call a function within a fuction
+      exampleFunction: () => {
+        getActions().changeColor(0, "green");
+      },
 
-			getMessage: async () => {
-				try{
-					// fetching data from the backend
-					const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
-					const data = await resp.json()
-					setStore({ message: data.message })
-					// don't forget to return something, that is how the async resolves
-					return data;
-				}catch(error){
-					console.log("Error loading message from backend", error)
-				}
-			},
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
+      getMessage: async () => {
+        try {
+          // fetching data from the backend
+          const resp = await fetch(process.env.BACKEND_URL + "/api/hello");
+          const data = await resp.json();
+          setStore({ message: data.message });
+          // don't forget to return something, that is how the async resolves
+          return data;
+        } catch (error) {
+          console.log("Error loading message from backend", error);
+        }
+      },
+      changeColor: (index, color) => {
+        //get the store
+        const store = getStore();
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
+        //we have to loop the entire demo array to look for the respective index
+        //and change its color
+        const demo = store.demo.map((elm, i) => {
+          if (i === index) elm.background = color;
+          return elm;
+        });
 
-				//reset the global store
-				setStore({ demo: demo });
-			}
-		}
-	};
+        //reset the global store
+        setStore({ demo: demo });
+      },
+      getGamesRecomended: async (number_games = 3) => {
+        try {
+          const resp = await fetch(
+            `${process.env.BACKEND_URL}/api/games_recommended/${number_games}`
+          );
+          if (!resp.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const data = await resp.json();
+          setStore({ games: data });
+          return data;
+        } catch (error) {
+          console.log("Error loading games from backend", error);
+        }
+      },
+
+      getUserProfile: async (userId) => {
+        try {
+          const resp = await fetch(
+            `${process.env.BACKEND_URL}/api/profile_user/${userId}`
+          );
+          if (!resp.ok) {
+            const errorText = await resp.text();
+            console.error("Error loading user profile:", errorText);
+            throw new Error(`HTTP error! status: ${resp.status}`);
+          }
+          const data = await resp.json();
+          setStore({ userProfile: data });
+        } catch (error) {
+          console.error("Error loading message from backend", error);
+        }
+      },
+    },
+  };
 };
 
 export default getState;

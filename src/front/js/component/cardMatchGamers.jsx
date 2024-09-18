@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-export const CardComponent = ({
+export const CardComponentUser = ({
   imageSrc,
   username,
   buttonText,
@@ -39,7 +39,7 @@ export const CardComponent = ({
   );
 };
 
-CardComponent.propTypes = {
+CardComponentUser.propTypes = {
   imageSrc: PropTypes.string.isRequired,
   // title: PropTypes.string.isRequired,
   buttonText: PropTypes.string.isRequired,

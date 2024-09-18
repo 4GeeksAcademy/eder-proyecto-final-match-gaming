@@ -31,7 +31,7 @@ export const Navbar = () => {
             <div className="collapse navbar-collapse" id="navbarNav">
               <ul className="navbar-nav mx-auto">
                 <li className="nav-item">
-                  <Link className="nav-link" to="/login">
+                  <Link className="nav-link" to="/">
                     Home
                   </Link>
                 </li>
@@ -52,9 +52,11 @@ export const Navbar = () => {
                 </li>
               </ul>
               <div className="d-flex align-items-center">
-                <button type="button" className="btn nav_button">
-                  Login
-                </button>
+                <Link to="/login">
+                  <button type="button" className="btn nav_button">
+                    Login
+                  </button>
+                </Link>
               </div>
             </div>
           </div>

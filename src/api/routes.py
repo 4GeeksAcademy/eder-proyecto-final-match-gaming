@@ -68,7 +68,6 @@ def get_game_by_name():
 """ USER ENDPOINT """
 
 @api.route("/users",methods=["POST"])
-
 def post_new_user():
     data = request.get_json()
     """ required = {"username","email","password","first_name","last_name","age","discord_id","steam_id","schedule","description","region","gender","platform","type_game"} """
@@ -138,12 +137,27 @@ def validate_access():
 
 
 
+@api.route('/profile_user/<int:user_id>', methods=['GET'])
+def get_profile_user(user_id):
+    try:
+        user = db.session.query(User).filter_by(id=user_id).one_or_none()
+        if user is None:
+            return jsonify({"error": "User not found"}), 404
+
+        user_dict = {
+            'id': user.id,
+            'username': user.username,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'discord_id': user.discord_id or "N/A",
+            'steam_id': user.steam_id or "N/A",
+            'description': user.description or "No description available",
+            'profile_img_url': user.profile_img_url or "No image available",
+            'platform': [platform.value for platform in user.platform] if user.platform else []
+        }
+        return jsonify(user_dict), 200
+    except Exception as err:
+        return jsonify({"error": "There was an unexpected error", "msg": str(err)}), 500
 
 
-
-
-
-
-
-    
 

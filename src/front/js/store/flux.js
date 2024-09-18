@@ -121,6 +121,22 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("Error loading games from backend", error);
         }
       },
+      getUserProfile: async (userId) => {
+        try {
+          const resp = await fetch(
+            `${process.env.BACKEND_URL}/api/profile_user/${userId}`
+          );
+          if (!resp.ok) {
+            const errorText = await resp.text();
+            console.error("Error loading user profile:", errorText);
+            throw new Error(`HTTP error! status: ${resp.status}`);
+          }
+          const data = await resp.json();
+          setStore({ userProfile: data });
+        } catch (error) {
+          console.error("Error loading message from backend", error);
+        }
+      },
     },
   };
 };

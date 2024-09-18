@@ -51,7 +51,7 @@ export const RegistrationForm = () => {
             console.log("Formulario enviado", data);
             actions.registerUser(data).then(() => {
 
-                navigate('/');
+                navigate('/login');
             }).catch((err) => {
                 console.error('Error en el registro:', err);
                 setError("Hubo un problema al registrar el usuario.");

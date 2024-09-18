@@ -1,5 +1,6 @@
 import React from "react";
 import LogLogin from "../../img/login/LogLogin.png";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   return (
@@ -72,12 +73,14 @@ const Login = () => {
                 <span className="text-white fw-bold">
                   Don’t have an account?
                 </span>
-                <span
-                  className="d-block d-md-inline text-primary fw-bold ms-md-2"
-                  style={{ cursor: "pointer" }}
-                >
-                  Register
-                </span>
+                <Link to="/age-verification">
+                  <span
+                    className="d-block d-md-inline text-primary fw-bold ms-md-2"
+                    style={{ cursor: "pointer" }}
+                  >
+                    Register
+                  </span>
+                </Link>
               </div>
             </form>
           </div>

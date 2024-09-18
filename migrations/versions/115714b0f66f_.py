@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 6f34604d2aea
+Revision ID: 115714b0f66f
 Revises: 
-Create Date: 2024-09-17 21:43:48.864389
+Create Date: 2024-09-18 05:31:26.792989
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = '6f34604d2aea'
+revision = '115714b0f66f'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -38,11 +38,11 @@ def upgrade():
     sa.Column('first_name', sa.String(length=80), nullable=False),
     sa.Column('last_name', sa.String(length=80), nullable=False),
     sa.Column('age', sa.String(length=80), nullable=False),
-    sa.Column('discord_id', sa.String(length=80), nullable=False),
-    sa.Column('steam_id', sa.String(length=80), nullable=False),
-    sa.Column('schedule', sa.Enum('ANYTIME', 'MORNING', 'AFTERNOON', 'EVENING', name='schedule'), nullable=False),
+    sa.Column('discord_id', sa.String(length=80), nullable=True),
+    sa.Column('steam_id', sa.String(length=80), nullable=True),
+    sa.Column('schedule', sa.Enum('ANYTIME', 'MORNING', 'AFTERNOON', 'EVENING', name='schedule'), nullable=True),
     sa.Column('description', sa.String(length=200), nullable=True),
-    sa.Column('region', sa.Enum('NA', 'SA', name='region'), nullable=False),
+    sa.Column('region', sa.Enum('NA', 'SA', name='region'), nullable=True),
     sa.Column('gender', sa.Enum('M', 'F', name='gender'), nullable=False),
     sa.Column('platform', postgresql.ARRAY(sa.Enum('STEAM', 'PLAY', 'XBOX', 'SWITCH', name='platform')), nullable=False),
     sa.Column('type_game', postgresql.ARRAY(sa.Enum('ACTION', 'ADVENTURE', 'RPG', 'STRATEGY', 'SPORTS', 'SHOOTER', name='typegame')), nullable=False),

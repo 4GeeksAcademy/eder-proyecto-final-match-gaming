@@ -12,16 +12,10 @@ body {
     transition: background-color 0.3s;
 }
 
-.genre-card:hover {
-    background-color: #700B97;
-    cursor: pointer;
-}
-
 .genre-card.selected {
     border-color: #444; 
     background-color: #700B97; 
   }
-
 
 .btn-prev, .btn-next {
     background-color: #444;
@@ -32,12 +26,6 @@ body {
     margin: 0px 30px; 
 }
 
-.btn-search{
-    background-color: #8c67f6;
-    border-radius: 10px;
-    color: white;
-    border: none;
-}
 
 @media (max-width: 768px) {
     .btn-prev, .btn-next {

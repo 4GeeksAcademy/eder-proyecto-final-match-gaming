@@ -12,11 +12,6 @@ body {
     transition: background-color 0.3s;
 }
 
-.genre-card:hover {
-    background-color: #700B97;
-    cursor: pointer;
-}
-
 .genre-card.selected {
     border-color: #444; 
     background-color: #700B97; 

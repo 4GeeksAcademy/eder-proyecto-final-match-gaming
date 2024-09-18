@@ -65,6 +65,62 @@ def get_game_by_name():
     except Exception as err:
         return jsonify({"error":"There was an unexpected error","msg":str(err)}),500 
 
+@api.route('/favorites/<int:id_user>',methods=["GET"])
+def get_user_favorites(id_user):
+    try:
+        query_favs = db.session.query(Favorite_game).filter_by(user_id = id_user).all()
+        if query_favs is None:
+            return jsonify({"msg":"No favorites games yet"}),404
+        else:
+            serialize_favs = [fav.serialize() for fav in query_favs]
+            user_favs = [fav["game_id"] for fav in serialize_favs]
+            return jsonify({"user_id":id_user,"user_games_id":user_favs}),200
+                
+    except Exception as err:
+        return jsonify({"error":"There was an unexpected error","msg":str(err)}),500 
+
+@api.route('/favorites', methods=["POST"])
+def post_fav_game():
+    data = request.get_json()
+    required = {"id_user","fav_ids"}
+    try:
+        for item in required:
+            if item not in data or not data[item]:
+                return jsonify({"msg":"Some required fields are missing or empty"}),400
+            
+        id_user = data["id_user"]
+        fav_ids = data["fav_ids"]
+        no_dupe_favs = []
+
+        if not isinstance(id_user,int):
+            return jsonify({"msg": " id_user debe ser de tipo INT(entero)"}), 400
+        if not isinstance(fav_ids,list):
+            return jsonify({"msg": "fav_ids debe ser de tipo List(array)"}), 400
+        if not all(isinstance(id_game, int) for id_game in fav_ids):
+            return jsonify({"msg": "fav_ids debe ser una lista(array) que contega solo INT(enteros)"}), 400
+        
+        for id_game in fav_ids:
+            query_fav = db.session.query(Favorite_game).filter_by(user_id = id_user, game_id = id_game).first()            
+            if query_fav is None:
+                no_dupe_favs.append(id_game)
+
+        if no_dupe_favs:
+            for id_game in no_dupe_favs:
+                new_fav_game = Favorite_game(user_id = id_user, game_id = id_game)
+                db.session.add(new_fav_game)
+            db.session.commit()
+            return jsonify({"msg": "Se agregaron juegos favorios de forma exitosa"}), 201    
+        else:
+            return jsonify({"msg": "Todos los juegos ya se encuentra como favoritos"}), 400
+        
+    except Exception as err:
+        db.session.rollback()
+        return jsonify({"error":"There was an unexpected error","msg":str(err)}),500 
+
+
+
+
+
 """ USER ENDPOINT """
 
 @api.route("/users",methods=["POST"])
@@ -115,7 +171,7 @@ def login():
             print(usr_type)
             custom_claims = {"user_type": usr_type}
             access_token = create_access_token(identity = user_id, additional_claims=custom_claims)
-            return jsonify({"access_token":access_token,"username":query_user.username,"user_type":query_user.user_type.value})      
+            return jsonify({"access_token":access_token,"username":query_user.username,"user_type":query_user.user_type.value}),200      
         else: 
             return jsonify({"error":"Incorrect password"}),400
 

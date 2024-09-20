@@ -10,7 +10,7 @@ import { Home } from "./pages/home.jsx";
 import  Login  from "./pages/login.jsx";
 import { AgeVerification } from "./pages/age_verification.jsx";
 import { Profile } from "./pages/profile.jsx";
-import { Search } from "./pages/search.jsx";
+import  SearchPage  from "./pages/search.jsx";
 import { SearchMatch } from "./pages/search_match.jsx";
 import { MatchResults } from "./pages/match_results.jsx";
 import { PlatformSelection } from "./pages/platform_selection.jsx";
@@ -37,7 +37,7 @@ const Layout = () => {
             <Route element={<Login />} path="/login" />
             <Route element={<AgeVerification />} path="/age-verification" />
             <Route element={<Profile />} path="/profile" />
-            <Route element={<Search />} path="/search" />
+            <Route element={<SearchPage />} path="/search" />
             <Route element={<SearchMatch />} path="/search-match" />
             <Route element={<MatchResults />} path="/match-results" />
             <Route element={<PlatformSelection />} path="/platform-selection" />

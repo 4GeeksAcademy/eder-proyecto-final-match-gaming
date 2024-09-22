@@ -252,7 +252,21 @@ def update_user_info(id_user):
         db.session.rollback()
         return jsonify({"error": "There was an unexpected error", "msg": str(err)}), 500
 
-    
+""" @api.route('/users_by_game/<int:id_game>',methods=['GET'])
+def get_users_by_game(id_game):
+    query_game = db.session.query(Favorite_game).filter_by(game_id = id_game).all()
+    users_game = []
+    try:
+        if query_game is None:
+            return jsonify({"msg":"no se encontraron usuarios"}),404
+        else:
+            serialize_game = [game.serialize() for game in query_game]
+            get_serialize_id = [game["game_id"] for game in serialize_game]
+            
+
+    except Exception as err:
+        return jsonify({"error": "There was an unexpected error", "msg": str(err)}), 500 """
+
 
 """ LOGIN AND AUTENTICATION """
 

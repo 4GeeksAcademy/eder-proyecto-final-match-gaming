@@ -15,37 +15,70 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			],
 			token: localStorage.getItem("token") || null,  // Almacena el token del usuario
+			isAuthenticated: !!localStorage.getItem("token"), // Estado de autenticación
+			userProfile: JSON.parse(localStorage.getItem("userProfile")) || null,
 			recommendedGames: [],
 			searchedGames: [],
-			specificGame: []
+			specificGame: [],
+			usersByGame: []
 		},
 		actions: {
 
 			loginUser: async (username, password) => {
 				try {
-					console.log("Action logi funcionando recibe: ",username,password);
-				  console.log("Backend URL:", process.env.BACKEND_URL);
 				  const response = await fetch(`${process.env.BACKEND_URL}/api/login`, {
 					method: "POST",
 					headers: {
 					  "Content-Type": "application/json",
-					  "Access-Control-Allow-Origin": "*",
 					},
 					body: JSON.stringify({ username, password }),
 				  });
-			  
-				  if (response.ok) {
-					const data = await response.json();
-					localStorage.setItem("token", data.access_token);  // Almacena el token
-					setStore({ token: data.access_token });
-					return true;
-				  } else {
-					console.error("Login error:", await response.json());
-					return false;
+				  if (!response.ok) {
+					return await handleErrorResponse(response);
 				  }
+				  const data = await response.json();
+				  if (!data.user_id || !data.username) {
+					console.error("User profile is missing in the response");
+					return {
+					  success: false,
+					  userId: null,
+					  username: null,
+					  error: "User profile is missing",
+					};
+				  }
+				  // Almacenar token y perfil en localStorage
+				  localStorage.setItem("token", data.access_token);
+				  localStorage.setItem(
+					"userProfile",
+					JSON.stringify({
+					  id: data.user_id,
+					  username: data.username,
+					  userType: data.user_type,
+					})
+				  );
+				  // Actualizar el store
+				  setStore({
+					token: data.access_token,
+					isAuthenticated: true,
+					userProfile: {
+					  id: data.user_id,
+					  username: data.username,
+					  userType: data.user_type,
+					},
+				  });
+				  return {
+					success: true,
+					userId: data.user_id,
+					username: data.username,
+				  };
 				} catch (error) {
 				  console.error("Error during login", error);
-				  return false;
+				  return {
+					success: false,
+					userId: null,
+					username: null,
+					error: error.message,
+				  };
 				}
 			  },
 			  
@@ -94,7 +127,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			getUserProfile: async (userId) => {
 				try {
 				  const resp = await fetch(
-					`${process.env.BACKEND_URL}/api/profile_user/${userId}`
+					`${process.env.BACKEND_URL}/api/profile/${userId}`
 				  );
 				  if (!resp.ok) {
 					const errorText = await resp.text();
@@ -218,6 +251,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error loading message from backend", error);
 				}
 			},
+			// Funcion para obtener un juego por el id
 			getSpecificGame: async (id_game) => {
 				try {
 
@@ -235,7 +269,27 @@ const getState = ({ getStore, getActions, setStore }) => {
 			
 					return gameData;
 				} catch (error) {
-					console.error("There was an error fetching the game:", error);
+					console.error("Error loading message from backend: ", error);
+				}
+			},
+			// Funcion para obtener los usuarios que han marcado un juego como favorito
+			getUsersByGame: async (gameId) => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/favorites/users/${gameId}`, {
+						method: 'GET',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+					});
+			
+					if (response.ok) {
+						const data = await response.json();
+						setStore({ usersByGame: data.users }); 
+					} else {
+						console.error("Error: ", response.statusText);
+					}
+				} catch (error) {
+					console.log("Error loading message from backend: ", error);
 				}
 			}
 		}

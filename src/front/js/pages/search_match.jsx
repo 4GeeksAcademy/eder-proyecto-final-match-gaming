@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import logo from "../../img/logo/logo-marca.png"
 import { MatchGame } from "../component/match_game/game_match.jsx";
 import { Context } from "../store/appContext.js";
@@ -11,6 +11,9 @@ export const SearchMatch = () => {
     const [platform, setPlatform] = useState("")
     const [typeGame, setTypeGame] = useState("")
 
+    useEffect(() => {
+        store.usersByGame = []
+    },[])
 
     const getData = async (e) => {
         e.preventDefault()
@@ -22,8 +25,7 @@ export const SearchMatch = () => {
         };
 
         await actions.getFilteredGames(searchData);
-        console.log(searchData)
-        console.log(store.searchedGames)
+        
     }
 
     const handlePlatformSelect = (platform) => {

@@ -163,6 +163,33 @@ def search_game():
 
     except Exception as err:
         return jsonify({"error": "There was an unexpected error", "msg": str(err)}), 500
+    
+
+@api.route('/favorites/users/<int:game_id>', methods=["GET"])
+def users_of_favorite_game(game_id):
+    users = []
+    try:
+        
+        query_favs = db.session.query(Favorite_game).filter_by(game_id=game_id).all()
+
+
+        if query_favs is None or len(query_favs) == 0:
+            return jsonify({"msg": "No existen usuarios con este juego como favorito"}), 404
+        
+
+        user_ids = [fav.user_id for fav in query_favs]
+        
+
+        for user_id in user_ids:
+            user = db.session.query(User).filter_by(id=user_id).first()
+            if user:
+                users.append(user.serialize())
+
+        return jsonify({"game_id": game_id, "users": users}), 200
+    
+    except Exception as err:
+        return jsonify({"error": "There was an unexpected error", "msg": str(err)}), 500
+
 
 """ USER ENDPOINT """
 
@@ -211,7 +238,7 @@ def search_user_name():
   
 
 
-@api.route('/profile_user/<int:user_id>', methods=['GET'])
+@api.route('/profile/<int:user_id>', methods=['GET'])
 def get_profile_user(user_id):
     try:
         user = db.session.query(User).filter_by(id=user_id).one_or_none()
@@ -274,28 +301,23 @@ def get_users_by_game(id_game):
 def login():
     user = request.json.get("username", None)
     passw = request.json.get("password", None)
-    print(f"User: {user}, Password: {passw}")    
-
+    print(f"User: {user}, Password: {passw}")
     if user is None or passw is None:
             return jsonify({"msg":"Username and password are required"}),400
-    
-    try:       
+    try:
         query_user = db.session.query(User).filter_by(username=user).one()
         user_db_passw = query_user.password
-
         validate = bcrypt.check_password_hash(user_db_passw,passw)
-        
         if validate:
             user_id = query_user.id
             usr_type = query_user.user_type.value
             print(usr_type)
             custom_claims = {"user_type": usr_type}
             access_token = create_access_token(identity = user_id, additional_claims=custom_claims)
-            return jsonify({"access_token":access_token,"username":query_user.username,"user_type":query_user.user_type.value}),200      
-        else: 
+            return jsonify({"access_token":access_token,"username":query_user.username,"user_type":query_user.user_type.value ,  "user_id": query_user.id }),200
+        else:
             return jsonify({"error":"Incorrect password"}),400
-
-    except Exception as err:        
+    except Exception as err:
         return jsonify({"error":"there was an unexpected error","msg":str(err)}),500
     
   

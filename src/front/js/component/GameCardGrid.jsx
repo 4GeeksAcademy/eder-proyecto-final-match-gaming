@@ -3,7 +3,7 @@ import emptyImage from '../../img/search/NoHayResultados.png'; // Imagen para vi
 
 const GameCardGrid = ({ games }) => {
   return (
-    <div className="container">
+    <div className="container"> 
       <div className="row justify-content-center">
         {games.map((game, index) => (
           <div key={index} className="col-md-4 mb-4">

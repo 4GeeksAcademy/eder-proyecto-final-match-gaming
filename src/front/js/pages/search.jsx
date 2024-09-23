@@ -9,9 +9,12 @@ const SearchPage = () => {
   const [searchType, setSearchType] = useState("Usuario");
   const [searchQuery, setSearchQuery] = useState("");
   const { store, actions } = useContext(Context); // Traemos el store y actions desde flux
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState({
+    platform: "", // Filtro de plataforma
+    type_game: "" // Filtro de tipo de juego
+  });
 
-  // Ejecuta la búsqueda cuando se cambia el searchType
+  // Ejecuta la búsqueda cuando se cambia el searchType o los filtros
   useEffect(() => {
     if (searchType === "Videojuego") {
       actions.getFilteredGames(filters);
@@ -20,9 +23,21 @@ const SearchPage = () => {
 
   // Filtra los resultados de videojuegos
   const filteredResults = store.searchedGames.filter(game =>
-    searchType === "Videojuego" && game.name.toLowerCase().includes(searchQuery.toLowerCase())
+    searchType === "Videojuego" &&
+    game.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+    
+    // Filtrado por plataforma
+    (filters.platform === "" || game.platform.some(platform =>
+      platform.toLowerCase().replace(/\s+/g, '') === filters.platform.toLowerCase().replace(/\s+/g, '')
+    )) &&
+    
+    // Filtrado por tipo de juego
+    (filters.type_game === "" || game.type_game.some(type =>
+      type.toLowerCase().replace(/\s+/g, '') === filters.type_game.toLowerCase().replace(/\s+/g, '')
+    ))
   );
-
+  
+  
   return (
     <div className="container-fluid" style={{ backgroundColor: "#16171C", paddingTop: "5px", marginTop: "100px" }}>
       {/* Barra de búsqueda */}
@@ -57,7 +72,7 @@ const SearchPage = () => {
             {/* Botón de búsqueda */}
             <button
               className="btn"
-              onClick={() => actions.getFilteredGames({ name: searchQuery })}
+              onClick={() => actions.getFilteredGames({ ...filters, name: searchQuery })}
               style={{
                 background: "linear-gradient(to right, #8C67F6 0%, #523C90 100%)",
                 color: "#FFFFFF",
@@ -72,6 +87,52 @@ const SearchPage = () => {
               Search
             </button>
           </div>
+
+          {/* Filtros adicionales (plataforma y tipo de juego) */}
+          {searchType === "Videojuego" && (
+            <div className="d-flex mb-3">
+              {/* Filtro de plataforma */}
+              <div className="flex-grow-1 me-2">
+                <label className="form-label" style={{ color: "#FFFFFF", fontFamily: "Poppins", fontSize: "18px" }}>
+                  Seleccione plataforma
+                </label>
+                <select
+                  className="form-select"
+                  value={filters.platform}
+                  onChange={(e) => setFilters({ ...filters, platform: e.target.value })}
+                  style={{ fontFamily: "Poppins", fontSize: "20px", color: "#FFFFFF", backgroundColor: "#797979", border: "none" }}
+                >
+                  <option value="">Seleccione la plataforma</option>
+                  <option value="xbox">Xbox</option>
+                  <option value="steam">Steam</option>
+                  <option value="play station">Play Station</option>
+                  {/* Agrega más plataformas según sea necesario */}
+                </select>
+              </div>
+
+              {/* Filtro de tipo de juego */}
+              <div className="flex-grow-1">
+                <label className="form-label" style={{ color: "#FFFFFF", fontFamily: "Poppins", fontSize: "18px" }}>
+                  Seleccione tipo de juego
+                </label>
+                <select
+                  className="form-select"
+                  value={filters.type_game}
+                  onChange={(e) => setFilters({ ...filters, type_game: e.target.value })}
+                  style={{ fontFamily: "Poppins", fontSize: "20px", color: "#FFFFFF", backgroundColor: "#797979", border: "none" }}
+                >
+                  <option value="">Seleccione el género</option>
+                  <option value="shooter">Shooter</option>
+                  <option value="action">Action</option>
+                  <option value="adventure">Adventure</option>
+                  <option value="sports">Sports</option>
+                  <option value="strategy">Strategy</option>
+                  <option value="rpg">RPG</option>
+                  {/* Agrega más tipos de juego según sea necesario */}
+                </select>
+              </div>
+            </div>
+          )}
         </div>
       </div>
   
@@ -96,8 +157,6 @@ const SearchPage = () => {
       </div>
     </div>
   );
-  
 };
 
 export default SearchPage;
-

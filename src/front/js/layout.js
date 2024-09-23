@@ -17,6 +17,8 @@ import { PlatformSelection } from "./pages/platform_selection.jsx";
 import { GameSelection } from "./pages/game_selection.jsx";
 import { RegistrationForm } from "./pages/registration_form.jsx";
 import { GenreSelection } from "./pages/genre_selection.jsx";
+import { CreateSession } from "./pages/create-session.jsx";
+import { Session } from "./pages/session.jsx";
 
 //create your first component
 const Layout = () => {
@@ -36,14 +38,16 @@ const Layout = () => {
             <Route element={<Home />} path="/" />
             <Route element={<Login />} path="/login" />
             <Route element={<AgeVerification />} path="/age-verification" />
-            <Route element={<Profile />} path="/profile" />
-            <Route element={<SearchPage />} path="/search" />
+            <Route element={<Profile />} path="/profile/:userId" />
+            <Route element={<Search />} path="/search" />
             <Route element={<SearchMatch />} path="/search-match" />
-            <Route element={<MatchResults />} path="/match-results" />
+            <Route element={<MatchResults />} path="/match-results/:id_game" />
             <Route element={<PlatformSelection />} path="/platform-selection" />
             <Route element={<GameSelection />} path="/game-selection" />
             <Route element={<RegistrationForm />} path="/registration-form" />
             <Route element={<GenreSelection />} path="/genre-selection" />
+            <Route element={<CreateSession/>} path="/create-session"/>
+            <Route element={<Session/>} path="/session"/>
             <Route element={<h1>Page Not Found</h1>} path="*" />
           </Routes>
           <Footer />

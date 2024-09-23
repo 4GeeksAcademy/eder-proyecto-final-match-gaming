@@ -26,6 +26,19 @@ body {
     margin: 0px 30px; 
 }
 
+.btn-searchA{
+    background-color: #a61bdd;
+    border: none;
+    border-radius: 20px;
+    color: #fff;
+    padding: 0.4rem;
+    width: 100%;
+}
+
+.btn-searchA:hover {
+    background-color: #8948a3;
+}
+
 
 @media (max-width: 768px) {
     .btn-prev, .btn-next {

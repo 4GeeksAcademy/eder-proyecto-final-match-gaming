@@ -214,7 +214,7 @@ class Session(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     game_id = db.Column(db.Integer,db.ForeignKey('game.id'))
     host_id = db.Column(db.Integer,db.ForeignKey('user.id'))
-    start_date = db.Column(DateTime,unique=False,nullable=False)
+    start_date = db.Column(db.DateTime,unique=False,nullable=False)
     duration = db.Column(Enum(Duration),unique=False,nullable=False)
     language = db.Column(Enum(Language),unique=False,nullable=False)
     session_type = db.Column(Enum(SessionType),unique=False,nullable=False)

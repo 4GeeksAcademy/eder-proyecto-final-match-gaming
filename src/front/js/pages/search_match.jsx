@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import logo from "../../img/logo/logo-marca.png"
 import { MatchGame } from "../component/match_game/game_match.jsx";
 import { Context } from "../store/appContext.js";
@@ -11,8 +11,11 @@ export const SearchMatch = () => {
     const [platform, setPlatform] = useState("")
     const [typeGame, setTypeGame] = useState("")
 
+    useEffect(() => {
+        store.usersByGame = []
+    },[])
 
-    const getData = (e) => {
+    const getData = async (e) => {
         e.preventDefault()
 
         const searchData = {
@@ -21,9 +24,8 @@ export const SearchMatch = () => {
             type_game: typeGame
         };
 
-        actions.getFilteredGames(searchData);
-        console.log(searchData)
-        console.log(store.searchedGames)
+        await actions.getFilteredGames(searchData);
+        
     }
 
     const handlePlatformSelect = (platform) => {
@@ -46,12 +48,12 @@ export const SearchMatch = () => {
                 <div className="row">
                     <h2 className="mb-5 fw-bold">Match</h2>
                     <div className="col-md-10 mb-2">
-                        <form class="d-flex" role="search">
-                            <input type="email" className="form-control bg-dark text-white rounded-3 p-2 border-0" style={{ fontSize: "14px" }} placeholder="Game" onChange={(e) => setGameName(e.target.value)}/>
+                        <form class="d-flex" role="search" onSubmit={(e) => e.preventDefault()}>
+                            <input type="text" className="form-control bg-dark text-white rounded-3 p-2 border-0" style={{ fontSize: "14px" }} placeholder="Game" onChange={(e) => setGameName(e.target.value)}/>
                         </form>
                     </div>
                     <div className="col-md-2 mb-2 d-flex">
-                        <button className="text-white btn-search bg-dark w-100" onClick={getData} type="submit">search</button>
+                        <button className="text-white btn btn-dark w-100" onClick={getData} type="submit">search</button>
                     </div>
                 </div>
                 <div className="container-fluid d-flex ps-0 center-mobile">
@@ -72,7 +74,7 @@ export const SearchMatch = () => {
                         </div>
 
                         <div className="col-6 d-flex align-items-center mt-1">
-                            <div className="me-2">Type-Game:</div>
+                            <div className="me-2">Genre:</div>
                             <select 
                                 className="form-select bg-dark text-white" 
                                 value={typeGame} 
@@ -90,7 +92,11 @@ export const SearchMatch = () => {
                     </div>
                 </div>
                     <div className="container">
-                        <MatchGame/>
+                        <div className="row gallery justify-content-center mt-2">
+                            {store.searchedGames.map(game => 
+                                <MatchGame name={game.name} imagen={game.background_image} id={game.id}/>
+                            )}
+                        </div>
                     </div>
             </div>
         </div>

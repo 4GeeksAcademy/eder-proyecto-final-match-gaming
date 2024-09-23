@@ -8,6 +8,8 @@ from flask_cors import CORS
 from sqlalchemy.sql import func
 from flask_jwt_extended import JWTManager, create_access_token,jwt_required, get_jwt_identity
 from flask_bcrypt import Bcrypt
+from datetime import datetime
+import pytz
 
 
 api = Blueprint('api', __name__)
@@ -163,6 +165,33 @@ def search_game():
 
     except Exception as err:
         return jsonify({"error": "There was an unexpected error", "msg": str(err)}), 500
+    
+
+@api.route('/favorites/users/<int:game_id>', methods=["GET"])
+def users_of_favorite_game(game_id):
+    users = []
+    try:
+        
+        query_favs = db.session.query(Favorite_game).filter_by(game_id=game_id).all()
+
+
+        if query_favs is None or len(query_favs) == 0:
+            return jsonify({"msg": "No existen usuarios con este juego como favorito"}), 404
+        
+
+        user_ids = [fav.user_id for fav in query_favs]
+        
+
+        for user_id in user_ids:
+            user = db.session.query(User).filter_by(id=user_id).first()
+            if user:
+                users.append(user.serialize())
+
+        return jsonify({"game_id": game_id, "users": users}), 200
+    
+    except Exception as err:
+        return jsonify({"error": "There was an unexpected error", "msg": str(err)}), 500
+
 
 """ USER ENDPOINT """
 
@@ -211,7 +240,7 @@ def search_user_name():
   
 
 
-@api.route('/profile_user/<int:user_id>', methods=['GET'])
+@api.route('/profile/<int:user_id>', methods=['GET'])
 def get_profile_user(user_id):
     try:
         user = db.session.query(User).filter_by(id=user_id).one_or_none()
@@ -233,7 +262,26 @@ def get_profile_user(user_id):
         return jsonify({"error": "There was an unexpected error", "msg": str(err)}), 500
 
 
+@api.route('/update_user/<int:id_user>', methods=['PUT'])
+def update_user_info(id_user):
+    only_allowed = ["email","first_name","last_name","age","discord_id","steam_id","schedule","description","region","gender","platform","type_games","profile_img_url"]
+    data = request.get_json()
 
+    try:
+        query_user = db.session.query(User).filter_by(id=id_user).first()        
+        if query_user is None:
+            return jsonify({"msg":"No se encontro el usuario"})        
+        for item in only_allowed:
+            if item in data and data[item]:
+                setattr(query_user,item,data[item])
+        db.session.commit()        
+        return jsonify({"msg":"se actualizo la informacion satisfactoriamente"})
+    
+    except Exception as err:
+        db.session.rollback()
+        return jsonify({"error": "There was an unexpected error", "msg": str(err)}), 500
+
+    
 
 """ LOGIN AND AUTENTICATION """
 
@@ -241,28 +289,23 @@ def get_profile_user(user_id):
 def login():
     user = request.json.get("username", None)
     passw = request.json.get("password", None)
-    print(f"User: {user}, Password: {passw}")    
-
+    print(f"User: {user}, Password: {passw}")
     if user is None or passw is None:
             return jsonify({"msg":"Username and password are required"}),400
-    
-    try:       
+    try:
         query_user = db.session.query(User).filter_by(username=user).one()
         user_db_passw = query_user.password
-
         validate = bcrypt.check_password_hash(user_db_passw,passw)
-        
         if validate:
             user_id = query_user.id
             usr_type = query_user.user_type.value
             print(usr_type)
             custom_claims = {"user_type": usr_type}
             access_token = create_access_token(identity = user_id, additional_claims=custom_claims)
-            return jsonify({"access_token":access_token,"username":query_user.username,"user_type":query_user.user_type.value}),200      
-        else: 
+            return jsonify({"access_token":access_token,"username":query_user.username,"user_type":query_user.user_type.value ,  "user_id": query_user.id }),200
+        else:
             return jsonify({"error":"Incorrect password"}),400
-
-    except Exception as err:        
+    except Exception as err:
         return jsonify({"error":"there was an unexpected error","msg":str(err)}),500
     
   
@@ -282,5 +325,55 @@ def validate_access():
 
 
 
+""" SESIONES ENDPOINT """
 
+@api.route('/sessions',methods=['POST'])
+def post_new_session():
+    data = request.get_json()
+    required = {"id_game","id_host","start_date","duration","language","session_type","region","background_img","description","capacity"}
+    try:
+        for item in required:
+            if item not in data or not data[item]:
+                return jsonify({"msg":"Algunos campos estan vacios o no se han enviado"}),400
+            
+        check_time = datetime.fromisoformat(data["start_date"])   #ISO 8601 
+        if check_time.tzinfo is None:
+            check_time = check_time.replace(tzinfo=pytz.utc) 
+        else:
+            check_time = check_time.astimezone(pytz.utc)    
+        new_session = Session(game_id = data["id_game"], host_id = data["id_host"], start_date = data["start_date"], duration = data["duration"], language = data["language"], session_type = data["session_type"],region = data["region"], background_img = data["background_img"],description=data["description"], capacity = data["capacity"])    
+        db.session.add(new_session)
+        db.session.commit()
+        return jsonify({"msg":"sesion creada con exito"}),200      
+
+    except Exception as err:
+        return jsonify({"error":"There was an unexpected error","msg":str(err)}),500
+
+@api.route('/sessions/<int:id_session>',methods=['GET'])
+def get_specific_session(id_session):
+    try:
+        query_session = db.session.query(Session).filter_by(id=id_session).first_or_404()
+        serialize_session = query_session.serialize()
+        return jsonify(serialize_session),200
+
+    except Exception as err:
+         return jsonify({"error":"There was an unexpected error","msg":str(err)}),500
+    
+@api.route('/sessions_user/<int:id_user>',methods=['GET'])
+def get_user_sessions(id_user):
+    try:
+        query_sessions = db.session.query(Session).filter_by(host_id = id_user).all()
+        if query_sessions is None:
+            return jsonify({"msg","No se encontraron sesiones"}),404
+        else:
+            serialize_session = [sess.serialize() for sess in query_sessions]
+            return jsonify(serialize_session),200
+        
+    except Exception as err:
+        return jsonify({"error":"There was an unexpected error","msg":str(err)}),500
+
+
+    
+
+    
 

@@ -9,3 +9,13 @@
     padding: 0.5rem 1rem;
     margin-bottom: -0.7rem;
 }
+
+a {
+  text-decoration: none;
+  color: inherit; 
+}
+
+a:hover {
+  color: rgba(140, 103, 246, 1); 
+  text-decoration: none;
+}

@@ -281,6 +281,35 @@ def update_user_info(id_user):
         db.session.rollback()
         return jsonify({"error": "There was an unexpected error", "msg": str(err)}), 500
 
+@api.route('/filter_user', methods=['POST'])
+def search_user():
+    try:
+        data = request.get_json()
+        username = data.get("username")
+        type_game = data.get("type_game")
+        platform = data.get("platform")
+        region = data.get("region")
+        schedule = data.get("schedule")
+        query = db.session.query(User)
+        if username:
+            query = query.filter(User.username.ilike(f'%{username}%'))
+        if type_game:
+            query = query.filter(User.type_game.contains([type_game]))
+        if platform:
+            query = query.filter(User.platform.contains([platform]))
+        if region:
+            query = query.filter(User.region == region)
+        if schedule:
+            query = query.filter(User.schedule == schedule)
+        users = query.all()
+        serialize_users = [user.serialize() for user in users]
+        return jsonify(serialize_users), 200
+    except Exception as err:
+        return jsonify({"error": "There was an unexpected error", "msg": str(err)}), 500
+
+
+
+
     
 
 """ LOGIN AND AUTENTICATION """

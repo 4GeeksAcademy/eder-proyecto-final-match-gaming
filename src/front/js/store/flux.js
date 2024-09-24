@@ -20,7 +20,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			recommendedGames: [],
 			searchedGames: [],
 			specificGame: [],
-			usersByGame: []
+			usersByGame: [],
+			filteredUsers: []
 		},
 		actions: {
 
@@ -242,6 +243,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			
 					if (response.ok) {
 						const data = await response.json();
+						console.log("Esto es data que llega: ", data);
 						setStore({ searchedGames: data });
 						console.log("Game search successful");
 					} else {
@@ -251,6 +253,33 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error loading message from backend", error);
 				}
 			},
+			getFilteredUsers: async (filters) => {
+				
+				try {
+					console.log(filters);
+					const response = await fetch(`${process.env.BACKEND_URL}/api/filter_user`, {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify(filters),
+					});
+			
+					if (response.ok) {
+						const data = await response.json();
+						setStore({ filteredUsers: data });  // Aquí estás actualizando la nueva propiedad
+						console.log("User search successful:", data);
+						return data; // Retornar los datos obtenidos
+					} else {
+						const errorText = await response.text();
+						console.error("Error:", response.statusText, errorText);
+					}
+				} catch (error) {
+					console.log("Error loading message from backend:", error);
+				}
+			},
+			
+						
 			// Funcion para obtener un juego por el id
 			getSpecificGame: async (id_game) => {
 				try {

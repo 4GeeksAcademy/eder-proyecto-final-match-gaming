@@ -4,63 +4,83 @@ import { Context } from "../store/appContext";
 import userImage from '../../img/search/Gamer.jpg'; // Imagen para usuarios
 import emptyImage from '../../img/search/NoHayResultados.png'; // Imagen para videojuegos
 import GameCardGrid from "../component/GameCardGrid.jsx";
+import UserCardGrid from "../component/UserCardGrid.jsx"; // Asegúrate de tener un componente para mostrar los usuarios
 
 const SearchPage = () => {
-  const [searchType, setSearchType] = useState("Usuario");
+  const [searchType, setSearchType] = useState("Usuario"); // Cambia "Usuario" a "Usuarios" si es necesario
   const [searchQuery, setSearchQuery] = useState("");
-  const { store, actions } = useContext(Context); // Traemos el store y actions desde flux
+  const { store, actions } = useContext(Context);
   const [filters, setFilters] = useState({
     platform: "", // Filtro de plataforma
-    type_game: "" // Filtro de tipo de juego
+    type_game: "", // Filtro de tipo de juego
+    region: "", // Filtro de región (para usuarios)
+    schedule: "", // Filtro de horario (para usuarios)
   });
 
-  // Ejecuta la búsqueda cuando se cambia el searchType o los filtros
+
+
   useEffect(() => {
     if (searchType === "Videojuego") {
-      actions.getFilteredGames(filters);
+      actions.getFilteredGames({ name: searchQuery, ...filters });
+      console.log(filters,searchQuery)
+    } else if (searchType === "Usuario") {
+      actions.getFilteredUsers({ username: searchQuery, ...filters });
+      
+      console.log(filters, searchQuery)
     }
-  }, [searchType, filters]);
+  }, [searchType, filters, searchQuery]);
 
-  // Filtra los resultados de videojuegos
-  const filteredResults = store.searchedGames.filter(game =>
-    searchType === "Videojuego" &&
-    game.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-    
-    // Filtrado por plataforma
-    (filters.platform === "" || game.platform.some(platform =>
-      platform.toLowerCase().replace(/\s+/g, '') === filters.platform.toLowerCase().replace(/\s+/g, '')
-    )) &&
-    
-    // Filtrado por tipo de juego
-    (filters.type_game === "" || game.type_game.some(type =>
-      type.toLowerCase().replace(/\s+/g, '') === filters.type_game.toLowerCase().replace(/\s+/g, '')
-    ))
-  );
-  
-  
+   //const [filteredResults,setfilteredResults]= useState(searchType === "Videojuego" ?store.searchedGames :store.filteredUsers)
+
+  const filteredResults = searchType === "Videojuego"
+    ? store.searchedGames
+    // .filter(game =>
+    //     game.name.toLowerCase().includes(searchQuery.toLowerCase())
+        //  &&
+        // (filters.platform === "" || game.platform.some(platform =>
+        //   platform.toLowerCase().replace(/\s+/g, '') === filters.platform.toLowerCase().replace(/\s+/g, '')
+        // )) &&
+        // (filters.type_game === "" || game.type_game.some(type =>
+        //   type.toLowerCase().replace(/\s+/g, '') === filters.type_game.toLowerCase().replace(/\s+/g, '')
+        // ))
+      // ) 
+    : store.filteredUsers
+    // .filter(user =>  
+    //     user.username.toLowerCase().includes(searchQuery.toLowerCase()) 
+      //   &&
+      //   (filters.region === "" || user.region === filters.region) && // Filtrar por región
+      // (filters.schedule === "" || user.schedule === filters.schedule) &&
+      // (filters.type_game === "" || user.type_game === filters.type_game) &&
+      // (filters.platform === "" || user.platform === filters.platform) // Filtrar por horario
+      // );
+      
+
   return (
     <div className="container-fluid" style={{ backgroundColor: "#16171C", paddingTop: "5px", marginTop: "100px" }}>
-      {/* Barra de búsqueda */}
       <div className="row justify-content-center mt-5">
         <div className="col-md-8">
-          <div className="d-flex justify-content-start" style={{ width: "50%", margin: "0 auto", marginLeft: "46%"  }}>
+          <div className="d-flex justify-content-start" style={{ width: "50%", margin: "0 auto", marginLeft: "46%" }}>
             <label className="form-label" style={{ color: "#FFFFFF", fontFamily: "Poppins", fontSize: "18px" }}>
-              Busca tu Usuario/Videojuego
+              Escribe tu Usuario/Videojuego
             </label>
           </div>
           <div className="d-flex mb-3">
-            {/* Dropdown */}
             <select
               className="form-select"
               value={searchType}
-              onChange={(e) => setSearchType(e.target.value)}
+              onChange={(e) => {setSearchType(e.target.value);setFilters({
+                platform: "", // Filtro de plataforma
+                type_game: "", // Filtro de tipo de juego
+                region: "", // Filtro de región (para usuarios)
+                schedule: "", // Filtro de horario (para usuarios)
+              })}}
+              //onChange={(e) => e.target.value === "Usuario" ? setfilteredResults(store.filteredUsers) : setfilteredResults(store.searchedGames)}
               style={{ fontFamily: "Poppins", fontSize: "20px", color: "#FFFFFF", backgroundColor: "#797979", border: "none", marginRight: "10px" }}
             >
-              <option value="Usuario">Usuario</option>
+              <option value="Usuario">Usuario</option>,
               <option value="Videojuego">Videojuego</option>
             </select>
-  
-            {/* Input de búsqueda */}
+
             <input
               type="text"
               className="form-control"
@@ -69,10 +89,15 @@ const SearchPage = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{ fontFamily: "Poppins", fontSize: "20px", color: "#FFFFFF", backgroundColor: "#797979", border: "none", marginRight: "10px" }}
             />
-            {/* Botón de búsqueda */}
             <button
               className="btn"
-              onClick={() => actions.getFilteredGames({ ...filters, name: searchQuery })}
+              onClick={() => {
+                if (searchType === "Videojuego") {
+                  actions.getFilteredGames({ ...filters, name: searchQuery });
+                } else {
+                  actions.getFilteredUsers({ name: searchQuery, ...filters });
+                }
+              }}
               style={{
                 background: "linear-gradient(to right, #8C67F6 0%, #523C90 100%)",
                 color: "#FFFFFF",
@@ -91,66 +116,117 @@ const SearchPage = () => {
           {/* Filtros adicionales (plataforma y tipo de juego) */}
           {searchType === "Videojuego" && (
             <div className="d-flex mb-3">
-              {/* Filtro de plataforma */}
               <div className="flex-grow-1 me-2">
-                <label className="form-label" style={{ color: "#FFFFFF", fontFamily: "Poppins", fontSize: "18px" }}>
-                  Seleccione plataforma
-                </label>
                 <select
                   className="form-select"
-                  value={filters.platform}
+                  // value={filters.platform}
                   onChange={(e) => setFilters({ ...filters, platform: e.target.value })}
                   style={{ fontFamily: "Poppins", fontSize: "20px", color: "#FFFFFF", backgroundColor: "#797979", border: "none" }}
                 >
                   <option value="">Seleccione la plataforma</option>
-                  <option value="xbox">Xbox</option>
-                  <option value="steam">Steam</option>
-                  <option value="play station">Play Station</option>
-                  {/* Agrega más plataformas según sea necesario */}
+                  <option value="XBOX">Xbox</option>
+                  <option value="STEAM">Steam</option>
+                  <option value="PLAY">Play Station</option>
+                  <option value="SWITCH ">Switch</option>
                 </select>
               </div>
 
-              {/* Filtro de tipo de juego */}
               <div className="flex-grow-1">
-                <label className="form-label" style={{ color: "#FFFFFF", fontFamily: "Poppins", fontSize: "18px" }}>
-                  Seleccione tipo de juego
-                </label>
+                <select
+                  className="form-select"
+                  // value={filters.type_game}
+                  onChange={(e) => setFilters({ ...filters, type_game: e.target.value })}
+                  style={{ fontFamily: "Poppins", fontSize: "20px", color: "#FFFFFF", backgroundColor: "#797979", border: "none" }}
+                >
+                  <option value="">Seleccione el género</option>
+                  <option value="SHOOTER">Shooter</option>
+                  <option value="ACTION">Action</option>
+                  <option value="ADVENTURE">Adventure</option>
+                  <option value="SPORTS">Sports</option>
+                  <option value="STRATEGY">Strategy</option>
+                  <option value="RPG">RPG</option>
+                </select>
+              </div>
+            </div>
+          )}
+
+          {searchType === "Usuario" && (
+            <div className="d-flex mb-3">
+              {/* Filtro de región */}
+              <div className="flex-grow-1 me-2">
+                <select
+                  className="form-select"
+                  value={filters.region}
+                  onChange={(e) => setFilters({ ...filters, region: e.target.value })}
+                  style={{ fontFamily: "Poppins", fontSize: "20px", color: "#FFFFFF", backgroundColor: "#797979", border: "none" }}
+                >
+                  <option value="">Región</option>
+                  <option value="SA">South America</option>
+                  <option value="NA">North America</option>
+                </select>
+              </div> 
+
+              {/* Filtro de tipo de juego */}
+              <div className="flex-grow-1 me-2">
                 <select
                   className="form-select"
                   value={filters.type_game}
                   onChange={(e) => setFilters({ ...filters, type_game: e.target.value })}
                   style={{ fontFamily: "Poppins", fontSize: "20px", color: "#FFFFFF", backgroundColor: "#797979", border: "none" }}
                 >
-                  <option value="">Seleccione el género</option>
-                  <option value="shooter">Shooter</option>
-                  <option value="action">Action</option>
-                  <option value="adventure">Adventure</option>
-                  <option value="sports">Sports</option>
-                  <option value="strategy">Strategy</option>
-                  <option value="rpg">RPG</option>
-                  {/* Agrega más tipos de juego según sea necesario */}
+                  <option value="">Género</option>
+                  <option value="SHOOTER">Shooter</option>
+                  <option value="ACTION">Action</option>
+                  <option value="ADVENTURE">Adventure</option>
+                  <option value="SPORTS">Sports</option>
+                  <option value="STRATEGY">Strategy</option>
+                  <option value="RPG">Rpg</option>
+                </select>
+              </div>
+
+              {/* Filtro de plataforma */}
+              <div className="flex-grow-1 me-2">
+                <select
+                  className="form-select"
+                  value={filters.platform}
+                  onChange={(e) => setFilters({ ...filters, platform: e.target.value })}
+                  style={{ fontFamily: "Poppins", fontSize: "20px", color: "#FFFFFF", backgroundColor: "#797979", border: "none" }}
+                >
+                  <option value="">Plataforma</option>
+                  <option value="XBOX">Xbox</option>
+                  <option value="STEAM">Steam</option>
+                  <option value="PLAY">Play Station</option>
+                </select>
+              </div>
+
+               {/* Filtro de horario */}
+               <div className="flex-grow-1 me-2">
+                <select
+                  className="form-select"
+                  value={filters.schedule}
+                  onChange={(e) => setFilters({ ...filters, schedule: e.target.value })}
+                  style={{ fontFamily: "Poppins", fontSize: "20px", color: "#FFFFFF", backgroundColor: "#797979", border: "none" }}
+                >
+                  <option value="">Horario</option>
+                  <option value="MORNING">Morning</option>
+                  <option value="AFTERNOON">Afternoon</option>
+                  <option value="EVENING">Evening</option>
                 </select>
               </div>
             </div>
           )}
-        </div>
-      </div>
-  
-      {/* Resultados de búsqueda */}
-      <div className="row justify-content-center flex-grow-1">
-        <div className="col-md-8">
-          <div className="d-flex flex-wrap">
-            {filteredResults.length === 0 ? (
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "50vh", marginLeft: "auto", marginRight: "auto" }}>
-                <p style={{ color: "#FFFFFF", textAlign: "center" }}>No se encontraron resultados para "{searchQuery}".</p>
-                <img
-                  src={emptyImage}
-                  alt="Sin resultados"
-                  style={{ width: "300px", height: "auto", display: "block", margin: "0 auto" }}
-                />
-              </div>
-            ) : (
+
+          {/* Mostrar resultados */}
+          <div className="row justify-content-center mt-3">
+            {searchType === "Videojuego" && filteredResults.length > 0 ? (
               <GameCardGrid games={filteredResults} />
+            ) : searchType === "Usuario" && filteredResults.length > 0 ? (
+              <UserCardGrid users={filteredResults} />
+            ) : (
+              <div className="text-center">
+                <img src={emptyImage} alt="No hay resultados" style={{ width: "50%" }} />
+                <p className="text-white">No hay resultados para la búsqueda.</p>
+              </div>
             )}
           </div>
         </div>

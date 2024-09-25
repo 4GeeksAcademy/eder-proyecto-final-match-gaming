@@ -9,6 +9,7 @@ export const GameSelection = () => {
     const { store, actions } = useContext(Context);
     const [name_game, setName_game] = useState("")
     const [selectedGames, setSelectedGames] = useState([])
+    const [isFocused, setIsFocused] = useState(false); // Estado para controlar el foco del input
 
     useEffect(() => {
         actions.getRecommendedGames_gameSelection(6)
@@ -46,9 +47,26 @@ export const GameSelection = () => {
             <div className="row justify-content-center align-items-center">
                 <h2 className="mb-5 fw-bold">Choose a prefered game</h2>
                 <div className="col-md-6 mb-3">
-                <form class="d-flex" role="search" onSubmit={handleSearch}>
+                {/* <form class="d-flex" role="search" onSubmit={handleSearch}>
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" onChange={(e) => setName_game(e.target.value)}/>
-                </form>
+                </form> */}
+                                        <form className="d-flex" role="search" onSubmit={handleSearch}>
+                            <input
+                                className="form-control me-2"
+                                type="search"
+                                placeholder="Search"
+                                aria-label="Search"
+                                onChange={(e) => setName_game(e.target.value)}
+                                onFocus={() => setIsFocused(true)}  
+                                onBlur={() => setIsFocused(false)}   
+                                style={{
+                                    boxShadow: isFocused ? "0 0 15px 5px #cc72f0 " : "none", 
+                                    borderColor: isFocused ? "#cc72f0; " : "initial", 
+                                    outline: "none",  
+                                    transition: "box-shadow 0.3s ease, border-color 0.3s ease"  
+                                }}
+                            />
+                        </form>
                 </div>
                 <div className="container">
                     <div className="row d-flex justify-content-center gallery">

@@ -1,6 +1,9 @@
 .card {
     transition: border-color 0.3s ease; 
 }
+.card:hover {
+   cursor:pointer;
+}
 .search-results{
     overflow: scroll;
     height: 200px;

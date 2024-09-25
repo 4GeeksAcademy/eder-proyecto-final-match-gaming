@@ -9,8 +9,8 @@ body {
     text-align: center;
     border-radius: 10px;
     color: #858995;
-    
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.7s, box-shadow 0.5s; 
+    /* transition: background-color 0.3s; */
 }
 
 .genre-card.selected {
@@ -24,12 +24,16 @@ body {
     transition: filter 0.3s ease;
 }
 
-/* Imagen seleccionada se torna blanca */
+
 .genre-card.selected img {
-    filter: brightness(0) invert(1); /* Se torna completamente blanca */
+    filter: brightness(0) invert(1); 
 }
 
 
+.genre-card:hover {
+    box-shadow: 0 0 15px 5px #cc72f0;  /* Sombra neón dorada */
+    cursor:pointer;
+}
 
 .btn-prev, .btn-next {
     background-color: #444;

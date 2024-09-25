@@ -95,7 +95,7 @@ export const UserInformation = () => {
             <div className="row">
               <div className="col-12 col-md-4 mt-5">
                 <div className="rounded custom-card-friends align-items-center text-center p-3">
-                  <h3 className="text-center">Amigos</h3>
+                  <h3 className="text-center">Friends</h3>
                   <div className="mt-5">
                     <CardComponentUser
                       imageSrc={perfil}
@@ -137,7 +137,7 @@ export const UserInformation = () => {
               </div>
               <div className="col-12 col-md-8 mt-5">
                 <div className="rounded custom-card-friends p-3">
-                  <h3 className="text-start">Sesiones</h3>
+                  <h3 className="text-start">Sessions</h3>
                   <div className="mt-5">
                     <SessionCard
                       imageSrc={sessionImage1}

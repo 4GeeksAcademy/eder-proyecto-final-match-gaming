@@ -50,7 +50,7 @@ const Login = () => {
             <h1 className="text-center text-md-start fw-bold pt-3" style={{ fontSize: "26px" }}>
               Find friends and play together <br /> today!
             </h1>
-            <h2 className="text-center text-primary fw-bold mt-3" style={{ fontSize: "28px" }}>
+            <h2 className="text-center fw-bold mt-2" style={{ fontSize: "28px" , color: "#8C67F6" }}>
               LOGIN
             </h2>
 

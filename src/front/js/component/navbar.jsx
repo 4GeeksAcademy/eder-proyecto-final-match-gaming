@@ -52,6 +52,19 @@ export const Navbar = () => {
                 </li>
               </ul>
               <div className="d-flex align-items-center">
+              <a
+                  href="https://www.paypal.com/donate/?hosted_button_id=6DC6GV3C9YAEU"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <button
+                    type="button"
+                    className="btn nav_button"
+                    style={{ marginRight: "5px" }}
+                  >
+                    Donate
+                  </button>
+                </a>
                 <Link to="/login">
                   <button type="button" className="btn nav_button">
                     Login

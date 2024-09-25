@@ -13,6 +13,17 @@ export const RegistrationForm = () => {
     const [error, setError] = useState("");
     const [selectedGender, setSelectedGender] = useState("");
     const [selectedButton, setSelectedButton] = useState(null);
+
+    const [isUsernameFocused, setIsUsernameFocused] = useState(false); 
+    const [isAgeFocused, setIsAgeFocused] = useState(false); 
+    const [isNameFocused, setIsNameFocused] = useState(false);
+    const [isLastnameFocused, setIsLastnameFocused] = useState(false);
+    const [isEmailFocused, setIsEmailFocused] = useState(false);
+    const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+    const [isConfirmPasswordFocused, setIsConfirmPasswordFocused] = useState(false);
+
+
+
     const {actions, store} = useContext(Context)
     const navigate = useNavigate();
 
@@ -105,9 +116,19 @@ export const RegistrationForm = () => {
                         type="text"
                         id="username"
                         className="form-control custom-placeholder"
-                        placeholder="Username"
+                        placeholder="Enter username"
                         name="username"
-                        style={{ backgroundColor: '#797979', color: '#FFFFFF', border: 'none'}}
+                        style={{
+                            backgroundColor: isUsernameFocused ? "#FFFFFF " : "#797979",
+                            color:  isUsernameFocused ? "#797979" : "#FFFFFF ",
+                            border: 'none',
+                            boxShadow: isUsernameFocused ? "0 0 15px 5px  #cc72f0 " : "none", // Sombra neón 
+                            borderColor: isUsernameFocused ? " #cc72f0 " : "initial",  
+                            outline: "none",
+                            transition: "box-shadow 0.3s ease, border-color 0.3s ease" 
+                        }}
+                        onFocus={() => setIsUsernameFocused(true)}  
+                        onBlur={() => setIsUsernameFocused(false)}
                         onChange={getData}
                         required
                     />
@@ -120,9 +141,19 @@ export const RegistrationForm = () => {
                         type="text"
                         id="dob"
                         className="form-control custom-placeholder"
-                        placeholder="Date of Birth"
+                        placeholder="Enter Date of Birth"
                         name="age"
-                        style={{ backgroundColor: '#797979', color: '#FFFFFF', border: 'none' }}
+                        style={{
+                            backgroundColor: isAgeFocused ? "#FFFFFF " : "#797979",
+                            color:  isAgeFocused ? "#797979" : "#FFFFFF ",
+                            border: 'none',
+                            boxShadow: isAgeFocused ? "0 0 15px 5px  #cc72f0 " : "none",
+                            borderColor: isAgeFocused ? " #cc72f0 " : "initial", 
+                            outline: "none", 
+                            transition: "box-shadow 0.3s ease, border-color 0.3s ease" 
+                        }}
+                        onFocus={() => setIsAgeFocused(true)} 
+                        onBlur={() => setIsAgeFocused(false)}
                         onChange={getData}
                         required
                     />
@@ -138,9 +169,19 @@ export const RegistrationForm = () => {
                         type="text"
                         id="name"
                         className="form-control custom-placeholder"
-                        placeholder="Name"
+                        placeholder="Enter name"
                         name="first_name"
-                        style={{ backgroundColor: '#797979', color: '#FFFFFF', border: 'none' }}
+                        style={{
+                            backgroundColor: isNameFocused ? "#FFFFFF " : "#797979",
+                            color:  isNameFocused ? "#797979" : "#FFFFFF ",
+                            border: 'none',
+                            boxShadow: isNameFocused ? "0 0 15px 5px  #cc72f0 " : "none",
+                            borderColor: isNameFocused ? " #cc72f0 " : "initial", 
+                            outline: "none", 
+                            transition: "box-shadow 0.3s ease, border-color 0.3s ease" 
+                        }}
+                        onFocus={() => setIsNameFocused(true)}  
+                        onBlur={() => setIsNameFocused(false)}
                         onChange={getData}
                         required
                     />
@@ -153,9 +194,19 @@ export const RegistrationForm = () => {
                         type="text"
                         id="lastname"
                         className="form-control custom-placeholder"
-                        placeholder="Lastname"
+                        placeholder="Enter lastname"
                         name="last_name"
-                        style={{ backgroundColor: '#797979', color: '#FFFFFF', border: 'none' }}
+                        style={{
+                            backgroundColor: isLastnameFocused ? "#FFFFFF " : "#797979",
+                            color:  isLastnameFocused ? "#797979" : "#FFFFFF ",
+                            border: 'none',
+                            boxShadow: isLastnameFocused ? "0 0 15px 5px  #cc72f0 " : "none",
+                            borderColor: isLastnameFocused ? " #cc72f0 " : "initial", 
+                            outline: "none",
+                            transition: "box-shadow 0.3s ease, border-color 0.3s ease" 
+                        }}
+                        onFocus={() => setIsLastnameFocused(true)}  
+                        onBlur={() => setIsLastnameFocused(false)}
                         onChange={getData}
                         required
                     />
@@ -210,9 +261,19 @@ export const RegistrationForm = () => {
                         type="email"
                         id="confirmPassword"
                         className="form-control custom-placeholder"
-                        placeholder="Email"
+                        placeholder="Enter email"
                         name="email"
-                        style={{ backgroundColor: '#797979', color: '#FFFFFF', border: 'none' }}
+                        style={{
+                            backgroundColor: isEmailFocused ? "#FFFFFF " : "#797979",
+                            color:  isEmailFocused ? "#797979" : "#FFFFFF ",
+                            border: 'none',
+                            boxShadow: isEmailFocused ? "0 0 15px 5px  #cc72f0 " : "none", 
+                            borderColor: isEmailFocused ? " #cc72f0 " : "initial", 
+                            outline: "none", 
+                            transition: "box-shadow 0.3s ease, border-color 0.3s ease" 
+                        }}
+                        onFocus={() => setIsEmailFocused(true)}  
+                        onBlur={() => setIsEmailFocused(false)}
                         onChange={getData}
                         required
                     />
@@ -225,9 +286,19 @@ export const RegistrationForm = () => {
                         type="password"
                         id="password"
                         className="form-control custom-placeholder"
-                        placeholder="Password"
+                        placeholder="Enter password"
                         name="password"
-                        style={{ backgroundColor: '#797979', color: '#FFFFFF', border: 'none' }}
+                        style={{
+                            backgroundColor: isPasswordFocused ? "#FFFFFF " : "#797979",
+                            color:  isPasswordFocused ? "#797979" : "#FFFFFF ",
+                            border: 'none',
+                            boxShadow: isPasswordFocused ? "0 0 15px 5px  #cc72f0 " : "none", 
+                            borderColor: isPasswordFocused ? " #cc72f0 " : "initial", 
+                            outline: "none", 
+                            transition: "box-shadow 0.3s ease, border-color 0.3s ease" 
+                        }}
+                        onFocus={() => setIsPasswordFocused(true)}  
+                        onBlur={() => setIsPasswordFocused(false)}
                         onChange={getData}
                         required
                     />
@@ -242,7 +313,17 @@ export const RegistrationForm = () => {
                         className="form-control custom-placeholder"
                         placeholder="Confirm Password"
                         name="confirmPassword"
-                        style={{ backgroundColor: '#797979', color: '#FFFFFF', border: 'none' }}
+                        style={{
+                            backgroundColor: isConfirmPasswordFocused ? "#FFFFFF " : "#797979",
+                            color:  isConfirmPasswordFocused ? "#797979" : "#FFFFFF ",
+                            border: 'none',
+                            boxShadow: isConfirmPasswordFocused ? "0 0 15px 5px  #cc72f0 " : "none", 
+                            borderColor: isConfirmPasswordFocused ? " #cc72f0 " : "initial", 
+                            outline: "none", 
+                            transition: "box-shadow 0.3s ease, border-color 0.3s ease"
+                        }}
+                        onFocus={() => setIsConfirmPasswordFocused(true)}  
+                        onBlur={() => setIsConfirmPasswordFocused(false)}
                         onChange={getData}
                         required
                     />

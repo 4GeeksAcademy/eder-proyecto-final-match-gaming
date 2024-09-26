@@ -19,6 +19,7 @@ import { RegistrationForm } from "./pages/registration_form.jsx";
 import { GenreSelection } from "./pages/genre_selection.jsx";
 import { CreateSession } from "./pages/create-session.jsx";
 import { Session } from "./pages/session.jsx";
+import { Donate } from "./pages/donate.jsx";
 
 //create your first component
 const Layout = () => {
@@ -48,6 +49,7 @@ const Layout = () => {
             <Route element={<GenreSelection />} path="/genre-selection" />
             <Route element={<CreateSession/>} path="/create-session"/>
             <Route element={<Session/>} path="/session"/>
+            <Route element={<Donate/>} path="/donate"/>
             <Route element={<h1>Page Not Found</h1>} path="*" />
           </Routes>
           <Footer />

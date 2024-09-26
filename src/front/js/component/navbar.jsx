@@ -50,6 +50,11 @@ export const Navbar = () => {
                     Team
                   </Link>
                 </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/donate">
+                    Donate
+                  </Link>
+                </li>
               </ul>
               <div className="d-flex align-items-center">
               <a

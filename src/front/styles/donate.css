@@ -1,0 +1,24 @@
+body {
+    font-family: "Poppins";
+    background: #16171C;
+}
+
+.donate-card {
+    background-color: #222328;
+    border: solid 1px #575757;
+    padding:  20px 10px;
+    text-align: center;
+    border-radius: 10px;
+    color: #858995;
+    margin : 1rem;
+    transition: background-color 0.3s, transform 0.7s, box-shadow 0.5s; 
+}
+.donate-card.selected {
+    border-color: #444; 
+    background-color: #700B97; 
+    color: #fff;
+  }
+  .donate-card:hover {
+    box-shadow: 0 0 15px 5px #cc72f0;  /* Sombra neón dorada */
+    cursor:pointer;
+}

@@ -36,12 +36,12 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['*', '.js']
+    extensions: ['*', '.js', "json"]
   },
   plugins: [
     new HtmlWebpackPlugin({
-        favicon: 'match-gaming.ico',
-        template: 'match-gaming.ico'
+        favicon: '4geeks.ico',
+        template: 'template.html'
     }),
     new Dotenv({ safe: true, systemvars: true })
   ]

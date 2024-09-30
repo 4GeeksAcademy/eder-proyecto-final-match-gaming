@@ -1,5 +1,5 @@
 import React from "react";
-import image1 from "../../img/banner/banner1.jpg";
+import image1 from "../../img/banner/banner-1.jpg";
 import image2 from "../../img/banner/banner2.jpg";
 import image3 from "../../img/banner/banner3.jpg";
 
@@ -49,27 +49,27 @@ export const Banner = () => {
               </div>
             </div>
             <div className="carousel-item">
-              <img src={image2} className="d-block w-100" alt="Slide 2" />
+              <img src={"https://w.wallhaven.cc/full/dg/wallhaven-dgx85o.png"} className="d-block w-100" alt="Slide 2" />
               <div
                 className="carousel-caption d-block text-start"
                 style={{ left: "0", right: "auto" }}
               >
                 <div className="container">
                   <h1 className="display-4 fw-bold">
-                    Find your perfect Gaming <br /> Match today
+                  Connect and level up  <br /> Together
                   </h1>
                 </div>
               </div>
             </div>
             <div className="carousel-item">
-              <img src={image3} className="d-block w-100" alt="Slide 3" />
+              <img src={"https://w.wallhaven.cc/full/w8/wallhaven-w8m2oq.png"} className="d-block w-100" alt="Slide 3" />
               <div
                 className="carousel-caption d-block text-start"
                 style={{ left: "0", right: "auto" }}
               >
                 <div className="container">
                   <h1 className="display-4 fw-bold">
-                    Find your perfect Gaming <br /> Match today
+                  Create custom game  <br /> Sessions now
                   </h1>
                 </div>
               </div>

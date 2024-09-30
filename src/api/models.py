@@ -165,6 +165,10 @@ class Favorite_game(db.Model):
 class Friend_request(db.Model):    
     user_send_invite = db.Column(db.Integer,db.ForeignKey('user.id'), primary_key=True, nullable=False)
     user_receive_invite = db.Column(db.Integer,db.ForeignKey('user.id'), primary_key=True, nullable=False)
+    send_username = db.Column(db.String(80),unique=False,nullable=False)
+    receive_username = db.Column(db.String(80),unique=False,nullable=False)
+    send_profile_image = db.Column(db.String(200),unique=False,nullable=True)
+    receive_profile_image = db.Column(db.String(200),unique=False,nullable=True)
     created_at = db.Column(DateTime,nullable=False,default=datetime.now(timezone.utc))
     
     def __repr__(self):
@@ -173,13 +177,21 @@ class Friend_request(db.Model):
     def serialize(self):
         return {            
             "user_send_invite":self.user_send_invite,
-            "user_receive_invite":self.user_receive_invite                                 
+            "user_receive_invite":self.user_receive_invite,
+            "send_username":self.send_username,
+            "receive_username":self.receive_username,
+            "send_profile_image":self.send_profile_image,
+            "receive_profile_image":self.receive_profile_image                                 
             # do not serialize the password, its a security breach
         }
 
 class Friendship(db.Model):   
     user_id_first = db.Column(db.Integer,db.ForeignKey('user.id'), primary_key=True, nullable=False)
     user_id_second = db.Column(db.Integer,db.ForeignKey('user.id'), primary_key=True, nullable=False)
+    first_username = db.Column(db.String(80),unique=False,nullable=False)
+    second_username = db.Column(db.String(80),unique=False,nullable=False)
+    first_profile_image = db.Column(db.String(200),unique=False,nullable=True)
+    second_profile_image = db.Column(db.String(200),unique=False,nullable=True)
     created_at = db.Column(DateTime,nullable=False,default=datetime.now(timezone.utc))
 
     def __repr__(self):
@@ -188,7 +200,11 @@ class Friendship(db.Model):
     def serialize(self):
         return {           
             "user_id_first":self.user_id_first,
-            "user_id_second":self.user_id_second                                
+            "user_id_second":self.user_id_second,
+            "first_username":self.first_username,
+            "second_username":self.second_username,
+            "first_profile_image":self.first_profile_image,
+            "second_profile_image":self.second_profile_image                               
             # do not serialize the password, its a security breach
         }
 
@@ -213,8 +229,11 @@ class Subscription(db.Model):
 class Session(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     game_id = db.Column(db.Integer,db.ForeignKey('game.id'))
+    game_name = db.Column(db.String(200),unique=False,nullable=False)
     host_id = db.Column(db.Integer,db.ForeignKey('user.id'))
-    start_date = db.Column(DateTime,unique=False,nullable=False)
+    host_username = db.Column(db.String(80),unique=False,nullable=False)
+    host_profile_image = db.Column(db.String(200),unique=False,nullable=True)
+    start_date = db.Column(db.DateTime,unique=False,nullable=False)
     duration = db.Column(Enum(Duration),unique=False,nullable=False)
     language = db.Column(Enum(Language),unique=False,nullable=False)
     session_type = db.Column(Enum(SessionType),unique=False,nullable=False)
@@ -233,7 +252,10 @@ class Session(db.Model):
         return {
             "id": self.id,
             "game_id":self.game_id,
+            "game_name":self.game_name,
             "host_id":self.host_id,
+            "host_username":self.host_username,
+            "host_profile_img":self.host_profile_image,
             "start_date":self.start_date,
             "duration":self.duration.value,
             "language":self.language.value,

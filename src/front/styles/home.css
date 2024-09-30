@@ -2,12 +2,12 @@ body {
   font-family: "Poppins", sans-serif;
 }
 .carousel-item img {
-  opacity: 0.7;
+  opacity: 0.2;
   transition: opacity 0.5s ease;
 }
 
 .carousel-item img:hover {
-  opacity: 1;
+  opacity: 0.9;
 }
 
 h1 {
@@ -35,9 +35,43 @@ h2 {
 }
 .navbar .nav_button {
   background-color: #8c67f6;
+  padding: 10px 25px;
+  font-size: 16px;
   border-radius: 10px;
   color: white;
+  margin: 3px;
 }
+
+.dropdown-menu {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.dropdown-item {
+  color: #333;
+  padding: 10px 20px;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #8c67f6;
+  color: #fff;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.dropdown-toggle {
+  display: flex;
+  align-items: center;
+}
+
+.fas.fa-user {
+  margin-right: 8px;
+}
+
 .nav-link {
   color: white !important;
 }
@@ -59,7 +93,7 @@ h2 {
   height: 625px;
   max-height: 500px;
   object-fit: cover;
-  opacity: 0.8;
+  opacity: 2;
 }
 
 .carousel-caption {
@@ -144,13 +178,13 @@ h2 {
 .custom-bg-gamers {
   margin-top: 5px;
   margin-bottom: 5px;
-  background-color: #1e1e1e;
+  background-color: #060606;
   border-radius: 10px;
   padding: 20px;
 }
 
 .border-card-match-gamers {
-  border-color: #8c67f6 !important;
+  border-color: rgb(112, 11, 151) !important;
 }
 
 .custom-card-games-recomended {
@@ -164,31 +198,8 @@ h2 {
 }
 
 .custom-card-games-recomended .card-body {
-  background-color: #222328;
+  background-color: #040404;
 }
-/* Start Menu */
-.header__wrapper .header__menu {
-  background: #191919;
-}
-
-.header__wrapper .header__menu .main__menu {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.header__wrapper .header__menu .main__menu li a {
-  font-family: "Rajdhani", sans-serif;
-  font-size: 18px;
-  color: #fff;
-  text-transform: uppercase;
-  transition: color 300ms ease-in-out;
-}
-
-.header__wrapper .header__menu .main__menu li a:hover {
-  color: #dd163b;
-}
-/*End menu*/
 
 /* Start news letter*/
 .newsletter__section {

@@ -32,7 +32,6 @@ export const GameSelection = () => {
             updatedIds.push(game_id);
         }
 
-        console.log(updatedIds)
         localStorage.setItem("selectedGameIds", JSON.stringify(updatedIds));
         setSelectedGames(updatedIds);
     }

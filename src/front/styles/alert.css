@@ -1,0 +1,79 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  .modal-content {
+    background-color: #1E1E1E;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 450px;
+    width: 100%;
+    border-top: 6px solid #8C67F6;
+    color: #fff;
+  }
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #8C67F6;
+    padding-bottom: 10px;
+  }
+  .modal-header h5 {
+    color: #8C67F6;
+    margin: 0;
+    font-size: 1.75rem;
+  }
+  .modal-body {
+    color: #ddd;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    border-bottom: 2px solid #8C67F6;
+    padding-bottom: 15px;
+  }
+  .modal-footer {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding-top: 15px;
+  }
+  .modal-footer .btn {
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  .modal-footer .btn-primary {
+    background-color: #8C67F6;
+    color: #fff;
+  }
+  .modal-footer .btn-danger {
+    background-color: #67F6A1;
+    color: #fff;
+  }
+  .modal-footer .btn:hover {
+    opacity: 0.9;
+  }
+  .close-modal {
+    background: none;
+    border: none;
+    color: #8C67F6;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  .close-modal:hover {
+    color: #fff;
+  }

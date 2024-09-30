@@ -1,0 +1,76 @@
+.profile-edit-container {
+  background-color: #272932;
+  font-family: "Poppins", sans-serif;
+  margin-top: 110px;
+  padding: 0 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.profile-edit-container h3 {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.profile-edit-container .form-label {
+  color: #ffffff;
+}
+
+.profile-edit-container .form-control {
+  background-color: #1f1f1f;
+  color: #ffffff;
+  border: 1px solid #444;
+}
+
+.profile-edit-container .form-control:focus {
+  background-color: #1f1f1f;
+  color: #ffffff;
+  border-color: #8c67f6;
+  box-shadow: none;
+}
+
+.profile-edit-container .input-group .btn-secondary {
+  background-color: #8c67f6;
+  border-color: #8c67f6;
+}
+
+.profile-edit-container .input-group .btn-secondary:hover {
+  background-color: #7a57d1;
+  border-color: #7a57d1;
+}
+
+.profile-edit-container .list-group-item {
+  background-color: #1f1f1f;
+  color: #ffffff;
+  border: 1px solid #444;
+}
+
+.profile-edit-container .list-group-item .btn-danger {
+  background-color: #a084ca;
+  border-color: #a084ca;
+}
+
+.profile-edit-container .list-group-item .btn-danger:hover {
+  background-color: #8c67f6;
+  border-color: #8c67f6;
+}
+
+.profile-edit-container .custom-button-profile {
+  background-color: #8c67f6;
+  border-color: #8c67f6;
+}
+
+.profile-edit-container .custom-button-profile:hover {
+  background-color: #7a57d1;
+  border-color: #7a57d1;
+}
+
+.profile-edit-container .btn-danger {
+  background-color: #a084ca;
+  border-radius: 10px;
+  border-color: #a084ca;
+}
+
+.profile-edit-container .btn-danger:hover {
+  background-color: #8c67f6;
+  border-color: #8c67f6;
+}

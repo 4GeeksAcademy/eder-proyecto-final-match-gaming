@@ -12,10 +12,10 @@ export const MatchResults = () => {
     const {actions, store} = useContext(Context)
 
     useEffect(() => {
-        actions.getSpecificGame(params.id_game)
+        actions.getSpecificGame(params.id_game).then(()=> {
+            actions.getUsersByGame(params.id_game)
+        })
     },[])
-    
-
 
     return(
         <div className="d-flex flex-column min-vh-100 pb-3" style={{backgroundColor: "#16171C", color: "#fff"}}>
@@ -32,7 +32,13 @@ export const MatchResults = () => {
                                 <div className="row">
                                     <h4 className="">Results:</h4>
                                 </div>
-                                    <MatchPeople/>
+                                {store.usersByGame && store.usersByGame.length > 0 ? (
+                                store.usersByGame.map(user => (
+                                    <MatchPeople key={user.id} username={user.username} imagen={user.profile_img_url} first_name={user.first_name} schedule={user.schedule} region={user.region} id={user.id}/>
+                                ))
+                                ) : (
+                                    <p>No users found</p> 
+                                )}
                             </div>
                         </div>
                     </div>

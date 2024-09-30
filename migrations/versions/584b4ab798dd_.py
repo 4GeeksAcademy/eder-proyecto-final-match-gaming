@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 3c0bc85d352f
+Revision ID: 584b4ab798dd
 Revises: 
-Create Date: 2024-09-20 17:25:06.907990
+Create Date: 2024-09-27 22:49:37.551414
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = '3c0bc85d352f'
+revision = '584b4ab798dd'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -64,6 +64,10 @@ def upgrade():
     op.create_table('friend_request',
     sa.Column('user_send_invite', sa.Integer(), nullable=False),
     sa.Column('user_receive_invite', sa.Integer(), nullable=False),
+    sa.Column('send_username', sa.String(length=80), nullable=False),
+    sa.Column('receive_username', sa.String(length=80), nullable=False),
+    sa.Column('send_profile_image', sa.String(length=200), nullable=True),
+    sa.Column('receive_profile_image', sa.String(length=200), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.ForeignKeyConstraint(['user_receive_invite'], ['user.id'], ),
     sa.ForeignKeyConstraint(['user_send_invite'], ['user.id'], ),
@@ -72,6 +76,10 @@ def upgrade():
     op.create_table('friendship',
     sa.Column('user_id_first', sa.Integer(), nullable=False),
     sa.Column('user_id_second', sa.Integer(), nullable=False),
+    sa.Column('first_username', sa.String(length=80), nullable=False),
+    sa.Column('second_username', sa.String(length=80), nullable=False),
+    sa.Column('first_profile_image', sa.String(length=200), nullable=True),
+    sa.Column('second_profile_image', sa.String(length=200), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.ForeignKeyConstraint(['user_id_first'], ['user.id'], ),
     sa.ForeignKeyConstraint(['user_id_second'], ['user.id'], ),
@@ -80,7 +88,10 @@ def upgrade():
     op.create_table('session',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('game_id', sa.Integer(), nullable=True),
+    sa.Column('game_name', sa.String(length=200), nullable=False),
     sa.Column('host_id', sa.Integer(), nullable=True),
+    sa.Column('host_username', sa.String(length=80), nullable=False),
+    sa.Column('host_profile_image', sa.String(length=200), nullable=True),
     sa.Column('start_date', sa.DateTime(), nullable=False),
     sa.Column('duration', sa.Enum('UNK', 'ONE', 'TWO', 'THREE', name='duration'), nullable=False),
     sa.Column('language', sa.Enum('ENGLISH', 'SPANISH', 'PORTUGUESE', name='language'), nullable=False),

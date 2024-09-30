@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export const Joingaming = () => {
+  const navigate = useNavigate()
   return (
     <>
       <section className="py-5 bg-black">
@@ -13,7 +15,7 @@ export const Joingaming = () => {
                 </h2>
               </div>
               <div className="col-12 text-center d-flex justify-content-center">
-                <button type="submit" className="btn custom-button">
+                <button type="submit" className="btn custom-button" onClick={() => navigate(`/search-match`)}>
                   JOIN MATCHGAMING
                 </button>
               </div>

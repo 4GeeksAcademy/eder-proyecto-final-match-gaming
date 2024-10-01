@@ -1,0 +1,98 @@
+body {
+    font-family: "Poppins", sans-serif;
+  }
+  
+.bg-container{
+    background-color: #272932;
+}
+.custom-card {
+    border: 2px solid rgba(140, 103, 246, 1); 
+    transition: transform 0.3s; 
+  }
+  
+  .custom-card:hover {
+    transform: scale(1.05); 
+  }
+/* row  */
+/*
+  .custom-row {
+
+    border-radius: 10px; 
+    position: relative; 
+    z-index: 1; 
+    overflow: hidden; 
+  }
+  
+  .custom-row::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 10px; 
+    background: rgba(133, 92, 248, 0.5); 
+    filter: blur(10px); 
+    z-index: -1; 
+  }
+  */
+
+  /* row */
+/* row */
+/* row */
+.custom-row {
+    border-radius: 10px;
+    position: relative;
+    z-index: 1;
+    background-color: #272932; /* Fondo oscuro */
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+  }
+  
+  .custom-row::before {
+    content: "";
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border-radius: 10px;
+    background: linear-gradient(200deg,  rgb(122, 27, 185), rgb(87, 58, 168),rgb(81, 52, 161), rgb(94, 46, 122), rgb(102, 97, 114), rgb(150, 114, 248));
+    background-size: 400% 400%;
+    z-index: -1;
+    filter: blur(4px);
+    animation: neonBorder 3s infinite linear;
+  }
+  
+  @keyframes neonBorder {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 100% 50%;
+    }
+  }
+
+  
+@keyframes neon-flicker {
+    0% {
+      text-shadow: 0 0 5px #cc72f0, 0 0 10px #cc72f0, 0 0 15px #cc72f0, 0 0 20px #cc72f0, 0 0 30px #cc72f0, 0 0 40px #cc72f0, 0 0 50px #cc72f0;
+      opacity: 1;
+    }
+    50% {
+      text-shadow: 0 0 5px #cc72f0, 0 0 10px #cc72f0, 0 0 15px #cc72f0;
+      opacity: 0.6;
+    }
+    100% {
+      text-shadow: 0 0 5px #cc72f0, 0 0 10px #cc72f0, 0 0 15px #cc72f0, 0 0 20px #cc72f0, 0 0 30px #cc72f0, 0 0 40px #cc72f0, 0 0 50px #cc72f0;
+      opacity: 1;
+    }
+  }
+  
+  .gaming-neon {
+    font-size: 24px; 
+    color: white; 
+    text-shadow: 0 0 5px #cc72f0, 0 0 10px #cc72f0, 0 0 15px #cc72f0;
+    animation: neon-flicker 1.5s infinite;
+  }

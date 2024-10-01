@@ -87,6 +87,11 @@ export const Navbar = () => {
                   </ul>
                 </li>
                 <li className="nav-item">
+                  <Link className="nav-link" to="/team">
+                    Team
+                  </Link>
+                </li>
+                <li className="nav-item">
                   <Link className="nav-link" to="/donate">
                     Donate
                   </Link>

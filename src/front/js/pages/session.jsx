@@ -29,6 +29,7 @@ export const Session = () => {
         } else if (sortBy === "recent") {
             sorted.sort((a, b) => new Date(a.start_date) - new Date(b.start_date));
         }
+        console.log(sorted)
         return sorted;
     };
 
@@ -109,6 +110,8 @@ export const Session = () => {
                                         date={store.specificSession.formattedDate}
                                         capacity={store.specificSession.capacity}
                                         isFull={store.specificSession.is_full}
+                                        type={store.specificSession.session_type}
+                                        friends={store.areFriends}
                                     />
                                 ) : (
                                     sortedSessions.map(session => (
@@ -122,6 +125,8 @@ export const Session = () => {
                                             date={session.formattedDate}
                                             capacity={session.capacity}
                                             isFull={session.is_full}
+                                            type={session.session_type}
+                                            friends={session.areFriends}
                                         />
                                     ))
                                 )}

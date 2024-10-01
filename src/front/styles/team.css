@@ -5,3 +5,18 @@ body {
 .bg-container{
     background-color: #272932;
 }
+
+.custom-buttom-connect {
+    background: linear-gradient(90deg, #8c67f6, #c4b1fa);
+    padding: 5px 50px;
+    color: white;
+    border-radius: 20px;
+    border: none;
+    background-size: 400% 400%; /* Agranda el fondo para permitir la animación */
+    transition: background-position 0.5s ease, color 0.5s ease;
+}
+
+.custom-buttom-connect:hover {
+    background-position: 100% 0; /* Cambia la posición del gradiente para dar efecto de transición */
+    color: white;
+}

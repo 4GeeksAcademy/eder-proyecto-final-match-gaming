@@ -7,6 +7,26 @@ export const Team = () => {
  * 
  * 
  */
+const profiles = [
+    {
+        name: "Maribel Maza",
+        jobTitle: "Starcraft 1",
+        image: "https://avatars.githubusercontent.com/u/80657076?v=4",
+        description: "Simply a developer.",
+    },
+    {
+        name: "Maribel Maza",
+        jobTitle: "Starcraft 1",
+        image: "https://avatars.githubusercontent.com/u/80657076?v=4",
+        description: "Simply a developer.",
+    },
+    {
+      name: "Maribel Maza",
+      jobTitle: "Starcraft 1",
+      image: "https://avatars.githubusercontent.com/u/80657076?v=4",
+      description: "Simply a developer.",
+    },
+  ];
 
   return (
     <section id="team" className="bg-black">

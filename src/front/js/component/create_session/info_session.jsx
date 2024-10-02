@@ -52,7 +52,7 @@ export const InfoSession = () => {
                             <div className="row">
                             <div className="col-12 col-lg-5 d-flex flex-column justify-content-center align-items-center" style={{backgroundImage: `url(${store.specificSession.background_img})`, backgroundSize: "cover", backgroundPosition: "center", minHeight: "250px", boxShadow: "inset 0px 0px 180px rgba(0, 0, 0, 0.5)", marginBottom: "50px", borderRadius: "20px"}}>
                                 <div style={{width: "220px", height: "220px", borderRadius: "50%", overflow: "hidden", border: "2px solid #495057", marginTop: "60px",}}>
-                                    <img src={store.specificSession.host_profile_imagen === "No image available" ? userDefault : store.specificSession.host_profile_imagen} alt="Perfil" style={{ width: "100%", height: "100%", objectFit: "cover", }}/>
+                                    <img src={!store.specificSession.host_profile_imagen ? userDefault : store.specificSession.host_profile_imagen} alt="Perfil" style={{ width: "100%", height: "100%", objectFit: "cover", }}/>
                                 </div>
                                 <div className="mb-4" style={{width: "85%", padding: "1.7rem", backgroundColor: "rgba(0, 0, 0, 0.5)", borderRadius: "15px", marginTop: "100px"}}>
                                 <h4 className="">{store.specificSession.game_name}</h4>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../store/appContext.js";
+import userDefault from "../../img/genre_games/user_default.jpg"
 
 export const Notifications = () => {
   const { store, actions, setStore } = useContext(Context);
@@ -51,6 +52,7 @@ export const Notifications = () => {
           : "Solicitud de amistad rechazada"
       );
       setShouldFetch(true);
+      window.location.reload()
     }
   };
 
@@ -97,7 +99,7 @@ export const Notifications = () => {
               style={{ padding: "8px 0" }}
             >
               <img
-                src={request.send_profile_image}
+                src={request.send_profile_image ? request.send_profile_image : userDefault}
                 alt="Profile"
                 style={{
                   width: "25px",

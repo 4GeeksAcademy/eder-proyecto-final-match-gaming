@@ -415,12 +415,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			getSessions: async () => {
 				try {
+
 					const response = await fetch(`${process.env.BACKEND_URL}/api/sessions`);
 			
 					if (response.ok) {
 						const data = await response.json();
 			
-						const formattedData = data.map(session => {
+						const formattedData = await Promise.all(data.map(async session => {
+							
 							const dateObject = new Date(session.start_date);
 							
 							const formattedDate = 
@@ -429,12 +431,32 @@ const getState = ({ getStore, getActions, setStore }) => {
 							const formattedTime = 
 								`${String(dateObject.getUTCHours()).padStart(2, '0')}:${String(dateObject.getUTCMinutes()).padStart(2, '0')}:${String(dateObject.getUTCSeconds()).padStart(2, '0')}`;
 			
+							
+							const user_local = JSON.parse(localStorage.getItem("userProfile")).id
+			
+							
+							const friendCheckResponse = await fetch(`${process.env.BACKEND_URL}/api/are_friends`, {
+								method: "POST",
+								headers: {
+									"Content-Type": "application/json"
+								},
+								body: JSON.stringify({
+									user_id_first: user_local,     
+									user_id_second: session.host_id  
+								})
+							});
+			
+							const friendCheckData = await friendCheckResponse.json();
+							const areFriends = friendCheckData.are_friends;
+			
+							
 							return {
 								...session,
 								formattedDate,
-								formattedTime
+								formattedTime,
+								areFriends 
 							};
-						});
+						}));
 			
 						setStore({ sessions: formattedData });
 					} else {
@@ -444,6 +466,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Error en la solicitud:", error);
 				}
 			},
+			
 
 			getSession: async (session_id) => {
 				try {

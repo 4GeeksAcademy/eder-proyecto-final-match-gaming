@@ -9,6 +9,7 @@ verify_ssl = true
 flask = "*"
 sqlalchemy = "==1.4.46"
 flask-sqlalchemy = "*"
+flask_mail = "*"
 flask-migrate = "*"
 flask-swagger = "*"
 psycopg2-binary = "*"

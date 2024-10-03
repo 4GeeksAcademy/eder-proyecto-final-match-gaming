@@ -8,7 +8,7 @@ export const Team = () => {
       name: "Anjhelo Elvis Vela Yauri",
       jobTitle: "Full-stack developer",
       image: "https://media-lim1-1.cdn.whatsapp.net/v/t61.24694-24/461255185_1052817896513180_7610875561851600091_n.jpg?ccb=11-4&oh=01_Q5AaIMadDh2UsBcEl5JBRbPpvYX-CZ32mmiGB1JCAncg-TbA&oe=670ADB27&_nc_sid=5e03e0&_nc_cat=100",
-      description: "Baldurs Gate 3,Cyberpunk 2077,Portal 2",
+      description: "Cyberpunk 2077",
       overlayText: "Mi pasión por los videojuegos comenzó cuando tenía 8 años. Recuerdo con mucho cariño las tardes que pasaba junto a mi padre, jugando títulos como Contra 1 y Starcraft. Esas experiencias no solo me hicieron disfrutar de los videojuegos, sino que también fortalecieron mi amor por este mundo. Hoy en día, los videojuegos son uno de mis hobbies favoritos y una forma de desconectar, explorar nuevos mundos y desafiar mis habilidades.",
       externalLink: "https://github.com/LOHAN2000"
     },

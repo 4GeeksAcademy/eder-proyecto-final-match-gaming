@@ -15,7 +15,7 @@ const ProfileCard = ({ name, jobTitle, image, description, overlayText, external
         <p className="card-text">{jobTitle}</p>
         <p className="card-text">Fav games: {description}</p>
       </div>
-      <div className="card-overlay">
+      <div className="custom_card_team card-overlay">
         <p>{overlayText}</p>
         <div className="custom-buttom-connect">
           <a href={externalLink} target="_blank" rel="noopener noreferrer">Connect</a>

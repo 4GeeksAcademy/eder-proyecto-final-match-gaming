@@ -29,7 +29,7 @@ export const CardComponentGames = ({ imageSrc, title }) => {
   };
 
   return (
-    <div className="card" style={cardStyle}>
+    <div className="card-recommended card" style={cardStyle}>
       <img src={imageSrc} style={cardImgStyle} alt={title} />
       <div className="card-body" style={cardBodyStyle}>
         <h4 className="card-title" style={cardTitleStyle}>

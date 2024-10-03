@@ -25,7 +25,7 @@ export const MatchGamers = () => {
           <div className="custom-bg-gamers">
             <h1 className="custom-title-2">Match Gamers</h1>
             <div className="row">
-              <div className="col-lg-4">
+              <div className="card-home col-lg-4">
               <div className="card border-card-match-gamers bg-black">
                       {store.recommendedGames && store.recommendedGames.length > 0 ? (
                           <img src={store.recommendedGames[0].background_image} className="card-img-top rounded" alt={store.recommendedGames[0].name} style={{height: '408px', objectFit: 'cover'}}/>

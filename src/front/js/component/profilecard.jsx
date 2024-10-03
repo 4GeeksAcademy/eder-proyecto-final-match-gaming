@@ -1,11 +1,10 @@
 import React from "react";
 import "../../styles/team.css";
-import "../../styles/home.css";
 
-const ProfileCard = ({ name, jobTitle, image, description }) => {
+const ProfileCard = ({ name, jobTitle, image, description, overlayText, externalLink }) => {
   return (
-    <div className="card  bg-container border-card-match-gamers">
-      <div className="card-body mt-3 mb-3 text-center">
+    <div className="card bg-container border-card-match-gamers">
+      <div className="card-body mt-5 mb-5 text-center">
         <img
           src={image}
           className="rounded-circle mb-3"
@@ -13,9 +12,14 @@ const ProfileCard = ({ name, jobTitle, image, description }) => {
           style={{ width: "100px", height: "100px", objectFit: "cover" }}
         />
         <h5 className="card-title">{name}</h5>
-        <p className="card-text"> Playing : {jobTitle}</p>
-        <p className="card-text">Bio : {description}</p>
-        <button className="btn custom-buttom-connect ">Connect</button>
+        <p className="card-text">{jobTitle}</p>
+        <p className="card-text">Fav games: {description}</p>
+      </div>
+      <div className="card-overlay">
+        <p>{overlayText}</p>
+        <div className="custom-buttom-connect">
+          <a href={externalLink} target="_blank" rel="noopener noreferrer">Connect</a>
+        </div>
       </div>
     </div>
   );

@@ -2,21 +2,81 @@ body {
     font-family: "Poppins", sans-serif;
   }
   
-.bg-container{
+  .bg-container {
     background-color: #272932;
-}
-
-.custom-buttom-connect {
-    background: linear-gradient(90deg, #8c67f6, #c4b1fa);
-    padding: 5px 50px;
+  }
+  
+  .card {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: scale(1.05);
+  }
+  
+  .card-body {
+    z-index: 1;
+    position: relative;
+    transition: opacity 0.5s ease;
+  }
+  
+  .card:hover .card-body {
+    opacity: 0; 
+  }
+  
+  .card-overlay {
+    position: absolute;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #3d3f49, #000000);
+    color: white;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; 
+    transition: bottom 0.5s ease;
+    z-index: 2;
+  }
+  
+  .card:hover .card-overlay {
+    bottom: 0; 
+  }
+  
+  /* Estilo para el botón en el overlay */
+  .custom-buttom-connect {
+    background:  #8c67f6;
+    padding: 5px 20px;
     color: white;
     border-radius: 20px;
     border: none;
-    background-size: 400% 400%; /* Agranda el fondo para permitir la animación */
     transition: background-position 0.5s ease, color 0.5s ease;
-}
-
-.custom-buttom-connect:hover {
-    background-position: 100% 0; /* Cambia la posición del gradiente para dar efecto de transición */
-    color: white;
-}
+    margin-top: 10px; 
+    font-size: 14px; 
+  }
+  
+  .custom-buttom-connect:hover {
+    background-position: 100% 0;
+    background: white;
+    color: #8c67f6 ;
+    cursor: pointer;
+    font-size: 14px; 
+  }
+  
+  .custom-buttom-connect a {
+    text-decoration: none;
+    color:  white;
+  }
+  
+  .custom-buttom-connect a:hover {
+    text-decoration: none;
+    color: #8c67f6 ;
+  }
+  .card-overlay p {
+    font-size: 14px; 
+    margin: 15px 30px;
+}  

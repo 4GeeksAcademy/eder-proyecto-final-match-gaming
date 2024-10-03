@@ -6,13 +6,13 @@ body {
     background-color: #272932;
   }
   
-  .card {
+  .card_team_custom {
     position: relative;
     overflow: hidden;
     transition: transform 0.3s ease;
   }
   
-  .card:hover {
+  .card_team_custom:hover {
     transform: scale(1.05);
   }
   
@@ -22,7 +22,7 @@ body {
     transition: opacity 0.5s ease;
   }
   
-  .card:hover .card-body {
+  .card_team_custom:hover .card-body {
     opacity: 0; 
   }
   
@@ -43,7 +43,7 @@ body {
     z-index: 2;
   }
   
-  .card:hover .card-overlay {
+  .card_team_custom:hover .card-overlay {
     bottom: 0; 
   }
   

@@ -3,7 +3,7 @@ import "../../styles/team.css";
 
 const ProfileCard = ({ name, jobTitle, image, description, overlayText, externalLink }) => {
   return (
-    <div className="card bg-container border-card-match-gamers">
+    <div className="card card_team_custom bg-container border-card-match-gamers">
       <div className="card-body mt-5 mb-5 text-center">
         <img
           src={image}

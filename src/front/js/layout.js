@@ -23,7 +23,9 @@ import {GameDetails} from "./pages/GameDetails.jsx";
 import { InfoSession } from "./component/create_session/info_session.jsx";
 import { UserProfileEdit } from "./pages/profile_edit.jsx";
 import { DonatePage } from "./pages/donation.jsx";
+import { Team } from "./pages/team.jsx";
 import { About } from "./pages/about.jsx";
+
 
 //create your first component
 const Layout = () => {
@@ -57,6 +59,7 @@ const Layout = () => {
             <Route element={<Session />} path="/session" />
             <Route element={<GameDetails />} path="/game-details" />
             <Route element={<InfoSession />} path="/info-session/:id_session" />
+            <Route element={<Team />} path="/team" />
             <Route element={<DonatePage />} path="/donate" />
             <Route element={<h1>Page Not Found</h1>} path="*" />
           </Routes>

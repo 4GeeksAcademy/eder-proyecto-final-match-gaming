@@ -9,14 +9,17 @@ from sqlalchemy.sql import func
 from flask_jwt_extended import JWTManager, create_access_token,jwt_required, get_jwt_identity
 from flask_bcrypt import Bcrypt
 from datetime import datetime
-import pytz
-
+import pytz, os
+from flask_mail import Mail, Message
+import string
+from random import choice
 
 
 api = Blueprint('api', __name__)
 
 bcrypt = Bcrypt()
 jwt = JWTManager()
+mail = Mail()
 
 # Allow CORS requests to this API
 CORS(api)
@@ -744,5 +747,51 @@ def are_friends():
     except Exception as err:
         return jsonify({"error": "There was an unexpected error", "msg": str(err)}), 500
 
-    
+""" RESET PASSWORD """
+def generate_password(length=8):
+    characters = string.ascii_letters + string.digits
+    return ''.join(choice(characters) for i in range(length))
+@api.route('/reset_password_request', methods=['POST'])
+def reset_password_request():
+    data = request.get_json()
+    email = data.get('email')
+    user = db.session.query(User).filter_by(email=email).first()
+    if user:
+        new_password = generate_password()
+        hashed_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+        user.password = hashed_password
+        db.session.commit()
+        username = user.username
+        image_path = os.getenv('IMAGE_PATH', 'logo-marca.png')
+        base_url = os.getenv('BASE_URL', request.url_root)
+        image_url = f"{base_url.rstrip('/')}/{image_path.lstrip('/')}"
+        html_content = f"""
+        <html>
+    <body>
+       <div class="container text-center py-5">
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #8C67F6; border-radius: 10px; background-color: #000;">
+          <div style="text-align: center; margin-top: 20px;">
+              <img src="{image_url}" alt="Logo" style="max-width: 400px; height: auto;">
+            </div>
+            <h2 style="color: #8C67F6;">Your New Password</h2>
+            <p style="font-size: 16px; color: #ccc;">Hello, {username}</p>
+            <p style="font-size: 16px; color: #ccc;">Your new password is:</p>
+            <p style="font-size: 20px; font-weight: bold; color: #fff;">
+              {new_password}
+            </p>
+            <p style="font-size: 16px; color: #ccc;">
+              "Please use this password to log in and enjoy exploring the platform!"
+            </p>
+            <p style="font-size: 16px; color: #ccc;">Thank you!</p>
+          </div>
+        </div>
+    </body>
+    </html>
+    """
+        msg = Message('Your New Password', recipients=[email],bcc=[os.getenv('MAIL_DEFAULT_SENDER')])
+        msg.html = html_content
+        mail.send(msg)
+        return jsonify({"msg": "New password sent to your email"}), 200
+    else:
+        return jsonify({"msg": "Email not found"}), 404    
 

@@ -19,9 +19,10 @@ import { RegistrationForm } from "./pages/registration_form.jsx";
 import { GenreSelection } from "./pages/genre_selection.jsx";
 import { CreateSession } from "./pages/create-session.jsx";
 import { Session } from "./pages/session.jsx";
-import {GameDetails} from "./pages/GameDetails.jsx";
+import { GameDetails } from "./pages/GameDetails.jsx";
 import { InfoSession } from "./component/create_session/info_session.jsx";
 import { UserProfileEdit } from "./pages/profile_edit.jsx";
+import { ResetPasswordRequest } from "./pages/password_reset_request.jsx";
 import { DonatePage } from "./pages/donation.jsx";
 import { About } from "./pages/about.jsx";
 
@@ -58,6 +59,7 @@ const Layout = () => {
             <Route element={<GameDetails />} path="/game-details" />
             <Route element={<InfoSession />} path="/info-session/:id_session" />
             <Route element={<DonatePage />} path="/donate" />
+            <Route element={<ResetPasswordRequest />} path="/reset-password" />
             <Route element={<h1>Page Not Found</h1>} path="*" />
           </Routes>
           <Footer />

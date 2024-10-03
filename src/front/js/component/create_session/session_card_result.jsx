@@ -22,7 +22,16 @@ export const SessionCardResult = (props) => {
                     <span className="fs-5 " style={{color: "#A2A2A2"}}>{props.capacity}<i className="fa-solid fa-user ms-2"></i></span>
                 </div>
                 <div style={{alignSelf: "end"}}>
-                    <button className="btn-searchA mb-4" data-target="#exampleModal" disabled={props.isFull} data-toggle="modal" style={{backgroundColor: "#8C67F6"}} onClick={() => navigate(`/info-session/${props.id}`)}>{props.isFull ? "FULL" : "Info"}</button>
+                    {props.type === "private" ? 
+                        (props.friends ? (
+                                <button className="btn-searchA mb-4" data-target="#exampleModal" disabled={props.isFull} data-toggle="modal" style={{backgroundColor: "#8C67F6"}} onClick={() => navigate(`/info-session/${props.id}`)}>{props.isFull ? "FULL" : "Info"}</button>
+
+                            ) : (
+                                <button className="btn-searchA mb-4" data-target="#exampleModal" disabled data-toggle="modal" style={{backgroundColor: "#8C67F6"}} onClick={() => navigate(`/info-session/${props.id}`)}>PRIVATE</button>
+                            )
+                    ) : (
+                        <button className="btn-searchA mb-4" data-target="#exampleModal" disabled={props.isFull} data-toggle="modal" style={{backgroundColor: "#8C67F6"}} onClick={() => navigate(`/info-session/${props.id}`)}>{props.isFull ? "FULL" : "Info"}</button>
+                    )}
                 </div>
             </div>
         </div>

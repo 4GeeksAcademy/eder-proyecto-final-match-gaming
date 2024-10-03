@@ -24,6 +24,8 @@ import { InfoSession } from "./component/create_session/info_session.jsx";
 import { UserProfileEdit } from "./pages/profile_edit.jsx";
 import { DonatePage } from "./pages/donation.jsx";
 import { Team } from "./pages/team.jsx";
+import { About } from "./pages/about.jsx";
+
 
 //create your first component
 const Layout = () => {
@@ -42,6 +44,7 @@ const Layout = () => {
           <Routes>
             <Route element={<Home />} path="/" />
             <Route element={<Login />} path="/login" />
+            <Route element={<About />} path="/about" />
             <Route element={<AgeVerification />} path="/age-verification" />
             <Route element={<Profile />} path="/profile/:userId" />
             <Route element={<UserProfileEdit />} path="/profile_edit/:userId" />

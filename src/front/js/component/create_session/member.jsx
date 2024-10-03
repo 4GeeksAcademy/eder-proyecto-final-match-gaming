@@ -36,7 +36,7 @@ export const Member = (props) => {
             <div className="w-100 bg-black p-3 mb-2" style={{border: "1px solid #700B97", borderRadius: "10px"}}>
                 <div className="row">
                     <div className="col-12 col-lg-2 text-center px-0">
-                        <img src={props.imagen === "No image available" ? userDefault : props.imagen} className="card-img-top rounded-circle" alt="..." style={{objectFit: "cover", width: "80px", height: "80px"}}/>    
+                        <img src={!props.imagen ? userDefault : props.imagen} className="card-img-top rounded-circle" alt="..." style={{objectFit: "cover", width: "80px", height: "80px"}}/>    
                     </div>
                     <div className="col-12 col-lg-6" style={{textAlign: "left"}}>
                         <span className="fs-5">@{props.username}</span><span className="fs-7 text-white-50 ps-2">{props.first_name}</span>

@@ -718,8 +718,31 @@ def get_user_friends(id_user):
     except Exception as err:
         return jsonify({"error":"There was an unexpected error","msg":str(err)}),500
 
+@api.route('/are_friends', methods=['POST'])
+def are_friends():
+    required = {"user_id_first", "user_id_second"}  
+    data = request.get_json()
+
+    try: 
+        for item in required:
+            if item not in data or not data[item]:
+                return jsonify({"msg": "Faltan datos o existen valores vacíos"}), 400
+
+        
+        if data["user_id_first"] == data["user_id_second"]:
+            return jsonify({"are_friends": True}), 200
+
+        query_friendship = db.session.query(Friendship).filter_by(user_id_first=data["user_id_first"], user_id_second=data["user_id_second"]).first()
+        query_friendship_reverse = db.session.query(Friendship).filter_by(user_id_first=data["user_id_second"], user_id_second=data["user_id_first"]).first()
+
+
+        if query_friendship or query_friendship_reverse:
+            return jsonify({"are_friends": True}), 200
+        else:
+            return jsonify({"are_friends": False}), 200
+
+    except Exception as err:
+        return jsonify({"error": "There was an unexpected error", "msg": str(err)}), 500
 
     
-
-
 

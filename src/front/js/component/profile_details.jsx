@@ -51,6 +51,7 @@ export const UserInformation = ({ userId }) => {
   const favoriteGames = store.favoriteGames || [];
   const sessions = store.sessions || [];
 
+
   const userSessions = sessions.filter(
     (session) => session.host_username === userProfile.username
   );

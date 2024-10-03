@@ -30,6 +30,26 @@ h2 {
   transition: color 0.3s ease;
 }
 
+.card-home{
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.card-home:hover{
+  transform: scale(1.05);
+}
+
+.card-recommended{
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.card-recommended:hover{
+  transform: scale(1.05);
+}
+
 .navbar {
   background-color: #161616;
 }

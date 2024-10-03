@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import "../../styles/profile.css";
 import Default from "../../img/genre_games/user_default.jpg"
 import { Link } from "react-router-dom";
+import { Context } from "../store/appContext";
 
 export const UserProfileCard = ({
   profile_img_url,
@@ -11,7 +12,32 @@ export const UserProfileCard = ({
   description,
   steam_id,
   discord_id,
+  id
 }) => {
+
+  const {actions, store} = useContext(Context)
+
+  const handleClick = async (id_user) => {
+    const userProfile = JSON.parse(localStorage.getItem("userProfile")).id
+    const data = {
+        user_send_invite: userProfile,
+        user_receive_invite: id_user
+    }
+
+    actions.sendFriendInvite(data).then(() => {
+        setFriendRequest(!friendRequest)
+    }).then(() => {
+        Swal.fire({
+            icon: "success",
+            title: "Friend request sent",
+            showConfirmButton: false,
+            timer: 2500,
+            background: "#222328",
+            color: "rgb(140, 103, 246)",
+          });
+    })
+}
+
   return (
     <div className="row align-items-start">
       <div className="col-12 col-md-2 text-center mb-3 mb-md-0">
@@ -62,7 +88,7 @@ export const UserProfileCard = ({
         </div>
       </div>
       <div className="col-12 col-md-2 d-flex justify-content-center align-items-start py-3">
-        <button type="button" className="btn custom-button-profile me-5">
+        <button type="button" className="btn custom-button-profile me-5" onClick={() => handleClick(id)}>
           Connect
         </button>
       </div>

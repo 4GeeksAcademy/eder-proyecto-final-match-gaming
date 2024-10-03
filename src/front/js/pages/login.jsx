@@ -118,6 +118,17 @@ const Login = () => {
                   </span>
                 </Link>
               </div>
+              <div className="mt-3 text-center text-md-start">
+                <span className="text-white fw-bold">Forgot Password?</span>
+                <Link to="/reset-password">
+                  <span
+                    className="d-block d-md-inline text-primary fw-bold ms-md-2"
+                    style={{ cursor: "pointer" }}
+                  >
+                    Reset Password
+                  </span>
+                </Link>
+              </div>
             </form>
           </div>
         </div>
